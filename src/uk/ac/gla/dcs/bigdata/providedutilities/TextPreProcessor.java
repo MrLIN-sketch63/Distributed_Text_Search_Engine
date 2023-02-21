@@ -14,6 +14,9 @@ import org.terrier.terms.BaseTermPipelineAccessor;
  * @author Richard
  *
  */
+
+
+//result will be Processed Tokens: [quick, brown, fox, jump, over, lazi, dog] if we enter "The quick brown fox jumps over the lazy dog"
 public class TextPreProcessor {
 
 	
@@ -48,6 +51,25 @@ public class TextPreProcessor {
 		}
 		
 		return outTokens;
+		
 	}
 	
+	
+    public static void main(String[] args) {
+        
+        // create an instance of the TextPreProcessor class
+        TextPreProcessor preprocessor = new TextPreProcessor();
+        
+        // define some sample text to preprocess
+        String sampleText = "The quick brown fox jumps over the lazy dog";
+        
+        // preprocess the sample text using the TextPreProcessor class
+        List<String> processedTokens = preprocessor.process(sampleText);
+        
+        // print the processed tokens
+        System.out.println("Processed Tokens: " + processedTokens);
+        
+    }
+	
 }
+
