@@ -26,21 +26,21 @@ public class NewsFormaterMap implements MapFunction<Row,NewsArticle> {
 
 	private transient ObjectMapper jsonMapper;// transient是Java语言的关键字,用来表示一个成员变量不是该对象序列化的一部分。当一个对象被序列化的时候,transient型变量的值不包括在序列化的结果中
 	
-	private transient TextPreProcessor newsProcessor;
+//	private transient TextPreProcessor newsProcessor;
 	
 	@Override
 	public NewsArticle call(Row value) throws Exception {
 		
-		/**Qixiang Mo modify**/
-		String originalNews = value.mkString();
-		
-		List<String> newsTerms = newsProcessor.process(originalNews);//queryTerms是经过了文本预处理的文本
-		
-		String content = String.join(" ", newsTerms);	
+//		/**Qixiang Mo modify**/
+//		String originalNews = value.mkString();
+//		
+//		List<String> newsTerms = newsProcessor.process(originalNews);//queryTerms是经过了文本预处理的文本
+//		
+//		String content = String.join(" ", newsTerms);	
 
 		if (jsonMapper==null) jsonMapper = new ObjectMapper();		
 		
-		NewsArticle article = jsonMapper.readValue(content, NewsArticle.class);
+		NewsArticle article = jsonMapper.readValue(value.mkString(), NewsArticle.class);
 		//将json文本转化成java的NewsArticle这个class,
 		//mkString(seq:String)方法是将原字符串使用特定的字符串seq分割,如果值为 [1, 2, 3]，结果将是字符串“123”。
 		
