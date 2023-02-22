@@ -44,6 +44,7 @@ public class NewsFormaterMap implements MapFunction<Row,NewsArticle> {
 		//将json文本转化成java的NewsArticle这个class,
 		//mkString(seq:String)方法是将原字符串使用特定的字符串seq分割,如果值为 [1, 2, 3]，结果将是字符串“123”。
 		
+		
 		return article;
 	}
 		

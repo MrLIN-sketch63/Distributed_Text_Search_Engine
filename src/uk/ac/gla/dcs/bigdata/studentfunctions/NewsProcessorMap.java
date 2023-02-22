@@ -1,5 +1,8 @@
 package uk.ac.gla.dcs.bigdata.studentfunctions;
 
+
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.spark.api.java.function.MapFunction;
@@ -21,33 +24,48 @@ public class NewsProcessorMap implements MapFunction<NewsArticle,NewsArticlesCle
 	public NewsArticlesCleaned call(NewsArticle value) throws Exception {
 		// TODO Auto-generated method stub
 		
+		List<String> title = new ArrayList<String>();
+		List<String> terms = new ArrayList<String>();
+		
+		if (newsProcessor==null) newsProcessor = new TextPreProcessor();//文本预处理软件，处理成想要的样子
 		
 		String newsID = value.getId();
 		String newsTitle = value.getTitle();
 		List<ContentItem> newsContentItems = value.getContents();
-		String newsParagraph = null;
-		
+		String newsParagraph = "";
+
 		
 		int i = 0;
 		for(ContentItem newsContentItem : newsContentItems) {
 			String subType = newsContentItem.getSubtype();
 			
-			if(subType=="paragraph"){
-				if(newsContentItem.getContent()!= null || newsContentItem.getContent() != ""){
-					newsParagraph = newsParagraph + newsContentItem.getContent();
-					i++;}//if the paragraph is null or blank then skip it to the next paragraph					
-			}
+			if( subType!= null) { 
+				if (subType.equals("paragraph")){
+					if(!newsContentItem.getContent().equals(null) || !newsContentItem.getContent().equals("")){
+						newsParagraph = newsParagraph + newsContentItem.getContent();
+						i++;}//if the paragraph is null or blank then skip it to the next paragraph					
+				}
 			
 			if(i==5) {
 				break;
 			}
+			
+			}
 		}
 		
-		List<String> terms = newsProcessor.process(newsParagraph);//terms是经过了文本预处理的paragraph
-		List<String> title = newsProcessor.process(newsTitle);//title是经过了文本预处理的title
 		
 		
-		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms);
+		if(newsParagraph!=null) {
+			 terms.addAll(newsProcessor.process(newsParagraph));//terms是经过了文本预处理的paragraph
+		}
+		
+		if(newsTitle != null) {
+			 title.addAll(newsProcessor.process(newsTitle));//title是经过了文本预处理的title
+		}
+		
+		
+		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, newsParagraph);
+		System.out.println(article.getContent());
 		
 			
 		return article;
