@@ -13,6 +13,8 @@ import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
+import uk.ac.gla.dcs.bigdata.studentfunctions.NewsProcessorMap;
+import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 
 /**
  * This is the main class where your Spark topology should be specified.
@@ -94,12 +96,13 @@ public class AssessedExercise {
 		// Perform an initial conversion from Dataset<Row> to Query and NewsArticle Java objects
 		Dataset<Query> queries = queriesjson.map(new QueryFormaterMap(), Encoders.bean(Query.class)); // this converts each row into a Query
 		Dataset<NewsArticle> news = newsjson.map(new NewsFormaterMap(), Encoders.bean(NewsArticle.class)); // this converts each row into a NewsArticle
-		
+		//news.show();
 		//----------------------------------------------------------------
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
-		
-		
+		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(), Encoders.bean(NewsArticlesCleaned.class));
+		System.out.println(articles.count());
+
 		return null; // replace this with the the list of DocumentRanking output by your topology
 	}
 	
