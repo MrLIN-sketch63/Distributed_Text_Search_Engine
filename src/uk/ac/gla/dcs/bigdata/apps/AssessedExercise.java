@@ -16,6 +16,10 @@ import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.studentfunctions.NewsProcessorMap;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
+import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthMap;
+import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthSumReducer;
+
+
 
 /**
  * This is the main class where your Spark topology should be specified.
@@ -101,12 +105,21 @@ public class AssessedExercise {
 		//----------------------------------------------------------------
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
+		
+		
 		Encoder<NewsArticlesCleaned> newsArticleEncoder = Encoders.bean(NewsArticlesCleaned.class); 
 		
-		
 		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(), newsArticleEncoder);
+		
+		Long totalDocsInCorpus = articles.count();
 		System.out.println(articles.count());
 		
+		Dataset<Long> docLength = articles.map(new DocLengthMap(), Encoders.LONG());
+		Long docLengthSUM = docLength.reduce(new DocLengthSumReducer());
+		double averageDocumentLengthInCorpus = docLengthSUM / totalDocsInCorpus;
+//		System.out.println(averageDocumentLengthInCorpus);
+
+
 		
 		return null; // replace this with the the list of DocumentRanking output by your topology
 	}
