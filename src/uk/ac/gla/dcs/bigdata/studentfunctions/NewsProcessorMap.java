@@ -9,7 +9,6 @@ import org.apache.spark.api.java.function.MapFunction;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.ContentItem;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
-import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 
@@ -35,27 +34,27 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		List<ContentItem> newsContentItems = value.getContents();
 		String newsParagraph = "";
 
-
+		
 		int i = 0;
 		for(ContentItem newsContentItem : newsContentItems) {
 			String subType = newsContentItem.getSubtype();
 			
-			if( subType!= null) {
+			if( subType!= null) { 
 				if (subType.equals("paragraph")){
 					if(!newsContentItem.getContent().equals(null) || !newsContentItem.getContent().equals("")){
 						newsParagraph = newsParagraph + newsContentItem.getContent();
-						i++;}//if the paragraph is null or blank then skip it to the next paragraph
+						i++;}//if the paragraph is null or blank then skip it to the next paragraph					
 				}
-
+			
 			if(i==5) {
 				break;
 			}
-
+			
 			}
 		}
-
-
-
+		
+		
+		
 		if(newsParagraph!=null) {
 			 terms.addAll(newsProcessor.process(newsParagraph));//terms是经过了文本预处理的paragraph
 			 doc_length += terms.size();
@@ -65,14 +64,14 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 			 title.addAll(newsProcessor.process(newsTitle));//title是经过了文本预处理的title
 			 doc_length += title.size();
 		}
-
-
+		
+		
 		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, newsParagraph, doc_length);
 		//System.out.println(article.getContent());
 		System.out.println(article.getDoc_length());
-
-
-
+		
+		
+			
 		return article;
 	}
 
