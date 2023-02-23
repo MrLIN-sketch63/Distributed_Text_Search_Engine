@@ -4,18 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="464f67ae-eb8f-40e1-97dd-5cc7058a417a" name="Changes" comment="">
+    <list default="true" id="464f67ae-eb8f-40e1-97dd-5cc7058a417a" name="Changes" comment="DPH parameters 3,4,5">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocToTerm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/SumFrequency.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/DocTermFrequency.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocLengthMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocLengthMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocLengthSumReducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocLengthSumReducer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Merge.Settings">
     <option name="BRANCH" value="origin/main" />
@@ -42,12 +55,17 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/86298/Desktop/BigData_project/src/uk/ac/gla/dcs/bigdata/studentstructures",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "Errors",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -90,7 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1677077563462</updated>
       <workItem from="1677077564704" duration="770000" />
-      <workItem from="1677078363634" duration="15817000" />
+      <workItem from="1677078363634" duration="35431000" />
     </task>
     <task id="LOCAL-00001" summary="Data cleaning">
       <created>1677085091173</created>
@@ -113,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677150971617</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="DPH parameters 3,4,5">
+      <created>1677151904186</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677151904186</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +146,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Data cleaning" />
-    <option name="LAST_COMMIT_MESSAGE" value="Data cleaning" />
+    <MESSAGE value="DPH parameters 3,4,5" />
+    <option name="LAST_COMMIT_MESSAGE" value="DPH parameters 3,4,5" />
   </component>
 </project>

@@ -14,6 +14,7 @@ public class NewsArticlesCleaned implements Serializable {
 	String originalNews;
 	List<String> content = new ArrayList<String>();
 	Long doc_length;
+	List<String> titleAndParagraphTerms = new ArrayList<String>();
 	
 	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, String originalNews, Long doc_length) {
 		super();
@@ -22,10 +23,12 @@ public class NewsArticlesCleaned implements Serializable {
 		this.paragraph = paragraph;
 		this.originalNews = originalNews;
 		this.doc_length = doc_length;
-		
+
 		if(this.title != null) this.content.addAll(this.title);
 		if(this.content != null) this.content.addAll(this.paragraph);
+
 	}
+
 
 	public Long getDoc_length() {
 		return doc_length;

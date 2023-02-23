@@ -3,22 +3,18 @@ package uk.ac.gla.dcs.bigdata.apps;
 import java.io.File;
 import java.util.List;
 import org.apache.spark.SparkConf;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Encoder;
-import org.apache.spark.sql.Encoders;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.*;
+import org.apache.spark.util.CollectionAccumulator;
 
+import scala.Tuple2;
 import uk.ac.gla.dcs.bigdata.providedfunctions.NewsFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
-import uk.ac.gla.dcs.bigdata.studentfunctions.NewsProcessorMap;
+import uk.ac.gla.dcs.bigdata.studentfunctions.*;
+import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
-import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthMap;
-import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthSumReducer;
-
 
 
 /**
@@ -106,10 +102,11 @@ public class AssessedExercise {
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
 
+		CollectionAccumulator<DocTermFrequency> docTermFrequency = spark.sparkContext().collectionAccumulator();
 
 		Encoder<NewsArticlesCleaned> newsArticleEncoder = Encoders.bean(NewsArticlesCleaned.class);
 
-		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(), newsArticleEncoder);
+		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(docTermFrequency), newsArticleEncoder);
 
 		Long totalDocsInCorpus = articles.count();
 		System.out.println(articles.count());
@@ -119,11 +116,28 @@ public class AssessedExercise {
 		double averageDocumentLengthInCorpus = docLengthSUM / totalDocsInCorpus;
 		System.out.println(averageDocumentLengthInCorpus);
 
+		System.out.println("111111111111111111111111111111111111111");
+		System.out.println(docTermFrequency.value().get(100).getId());
+		System.out.println(docTermFrequency.value().get(100).getTerm());
+		System.out.println(docTermFrequency.value().get(100).getFrequency());
 
+		Dataset<DocTermFrequency> DocTermFrequencyDataset = spark.createDataset(docTermFrequency.value(), Encoders.bean(DocTermFrequency.class));
+
+		DocToTerm keyFunction = new DocToTerm();
+		KeyValueGroupedDataset<String, DocTermFrequency> DocByTerm = DocTermFrequencyDataset.groupByKey(keyFunction, Encoders.STRING());
+
+		SumFrequency totalFrequency = new SumFrequency();
+
+		Encoder<Tuple2<String,Long>> termFrequencyEncoder = Encoders.tuple(Encoders.STRING(), Encoders.LONG());
+		Dataset<Tuple2<String,Long>> termAndFrequency = DocByTerm.mapGroups(totalFrequency, termFrequencyEncoder);
+		termAndFrequency.show();
+		//System.out.println(termAndFrequency);
 
 		return null; // replace this with the the list of DocumentRanking output by your topology
 	}
 
 
 }
+
+
 
