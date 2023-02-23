@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -13,6 +14,12 @@ import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
+import uk.ac.gla.dcs.bigdata.studentfunctions.NewsProcessorMap;
+import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
+import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthMap;
+import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthSumReducer;
+
+
 
 /**
  * This is the main class where your Spark topology should be specified.
@@ -56,7 +63,8 @@ public class AssessedExercise {
 		
 		// Get the location of the input news articles
 		String newsFile = System.getenv("bigdata.news");
-		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
+//		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
+		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; 
 		
 		// Call the student's code
 		List<DocumentRanking> results = rankDocuments(spark, queryFile, newsFile);
@@ -90,15 +98,28 @@ public class AssessedExercise {
 		// Load queries and news articles
 		Dataset<Row> queriesjson = spark.read().text(queryFile);
 		Dataset<Row> newsjson = spark.read().text(newsFile); // read in files as string rows, one row per article
-		
 		// Perform an initial conversion from Dataset<Row> to Query and NewsArticle Java objects
 		Dataset<Query> queries = queriesjson.map(new QueryFormaterMap(), Encoders.bean(Query.class)); // this converts each row into a Query
 		Dataset<NewsArticle> news = newsjson.map(new NewsFormaterMap(), Encoders.bean(NewsArticle.class)); // this converts each row into a NewsArticle
-		
+	
 		//----------------------------------------------------------------
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
 		
+		
+		Encoder<NewsArticlesCleaned> newsArticleEncoder = Encoders.bean(NewsArticlesCleaned.class); 
+		
+		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(), newsArticleEncoder);
+		
+		Long totalDocsInCorpus = articles.count();
+		System.out.println(articles.count());
+		
+		Dataset<Long> docLength = articles.map(new DocLengthMap(), Encoders.LONG());
+		Long docLengthSUM = docLength.reduce(new DocLengthSumReducer());
+		double averageDocumentLengthInCorpus = docLengthSUM / totalDocsInCorpus;
+		System.out.println(averageDocumentLengthInCorpus);
+
+
 		
 		return null; // replace this with the the list of DocumentRanking output by your topology
 	}
