@@ -33,26 +33,27 @@ public class NewsProcessorMap implements MapFunction<NewsArticle,NewsArticlesCle
 		String newsTitle = value.getTitle();
 		List<ContentItem> newsContentItems = value.getContents();
 		String newsParagraph = "";
-		
+
 		int i = 0;
 		for(ContentItem newsContentItem : newsContentItems) {
 			String subType = newsContentItem.getSubtype();
 			
-			if( subType!= null) { 
+			if(subType!= null) {
 				if (subType.equals("paragraph")){
 					if(!newsContentItem.getContent().equals(null) || !newsContentItem.getContent().equals("")){
 						newsParagraph = newsParagraph + newsContentItem.getContent();
-						i++;}//if the paragraph is null or blank then skip it to the next paragraph					
+						i++;
+					} //if the paragraph is null or blank then skip it to the next paragraph
 				}
-			
-			if(i==5) {
-				break;
+
 			}
-			
+
+			if(i == 5) {
+				break;
 			}
 		}
 		
-		if(newsParagraph!=null) {
+		if(newsParagraph != null) {
 			 terms.addAll(newsProcessor.process(newsParagraph));//terms是经过了文本预处理的paragraph
 		}
 		
@@ -60,10 +61,8 @@ public class NewsProcessorMap implements MapFunction<NewsArticle,NewsArticlesCle
 			 title.addAll(newsProcessor.process(newsTitle));//title是经过了文本预处理的title
 		}
 
-		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, newsParagraph);
-
-		//System.out.println(article.getContent());
-
+		NewsArticlesCleaned article = new NewsArticlesCleaned(newsID, title, terms, newsParagraph);
+		
 
 		return article;
 	}
