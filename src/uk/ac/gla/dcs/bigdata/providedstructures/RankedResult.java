@@ -8,7 +8,7 @@ public class RankedResult implements Serializable, Comparable<RankedResult> {
 
 	private static final long serialVersionUID = -2905684103776472843L;
 	
-	String docid;//排行的id
+	String docid;
 	NewsArticle article; 
 	double score;
 	

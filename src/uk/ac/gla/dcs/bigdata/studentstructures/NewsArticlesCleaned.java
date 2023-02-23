@@ -2,9 +2,7 @@ package uk.ac.gla.dcs.bigdata.studentstructures;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class NewsArticlesCleaned implements Serializable {
@@ -16,7 +14,7 @@ public class NewsArticlesCleaned implements Serializable {
 	String originalNews;
 	List<String> content = new ArrayList<String>();
 	Long doc_length;
-	HashMap<String, Integer> wordMap = new HashMap<String, Integer>();
+	List<String> titleAndParagraphTerms = new ArrayList<String>();
 	
 	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, String originalNews, Long doc_length) {
 		super();
@@ -25,17 +23,12 @@ public class NewsArticlesCleaned implements Serializable {
 		this.paragraph = paragraph;
 		this.originalNews = originalNews;
 		this.doc_length = doc_length;
-		
-		
-		
-//		  for (String word : wordMap.keySet()) {
-//	            System.out.println(word + ": " + wordMap.get(word));
-//	        }
+
 		if(this.title != null) this.content.addAll(this.title);
 		if(this.content != null) this.content.addAll(this.paragraph);
-		WordFrequency();
-		System.out.println(wordMap);
+
 	}
+
 
 	public Long getDoc_length() {
 		return doc_length;
@@ -79,14 +72,4 @@ public class NewsArticlesCleaned implements Serializable {
 	}
 	
 
-	public void WordFrequency() {
-		
-		for (String word : this.content) {
-            if (this.wordMap.containsKey(word)) {
-                wordMap.put(word, wordMap.get(word) + 1);
-            } else {
-                wordMap.put(word, 1);
-            }
-        }
-		}
 }
