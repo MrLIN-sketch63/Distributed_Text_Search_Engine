@@ -1,6 +1,7 @@
 package uk.ac.gla.dcs.bigdata.apps;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
@@ -8,6 +9,8 @@ import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.util.CollectionAccumulator;
+import org.apache.spark.util.LongAccumulator;
 
 import uk.ac.gla.dcs.bigdata.providedfunctions.NewsFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
@@ -15,6 +18,7 @@ import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.studentfunctions.NewsProcessorMap;
+import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthMap;
 import uk.ac.gla.dcs.bigdata.studentfunctions.DocLengthSumReducer;
@@ -106,10 +110,12 @@ public class AssessedExercise {
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
 		
+		CollectionAccumulator<DocTermFrequency> docTermFrequency = spark.sparkContext().collectionAccumulator();
 		
 		Encoder<NewsArticlesCleaned> newsArticleEncoder = Encoders.bean(NewsArticlesCleaned.class); 
 		
-		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(), newsArticleEncoder);
+		
+		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(docTermFrequency), newsArticleEncoder);
 		
 		Long totalDocsInCorpus = articles.count();
 		System.out.println(articles.count());
@@ -118,9 +124,11 @@ public class AssessedExercise {
 		Long docLengthSUM = docLength.reduce(new DocLengthSumReducer());
 		double averageDocumentLengthInCorpus = docLengthSUM / totalDocsInCorpus;
 		System.out.println(averageDocumentLengthInCorpus);
-
+		System.out.println(docTermFrequency.value().toString());
 
 		
+
+	
 		return null; // replace this with the the list of DocumentRanking output by your topology
 	}
 	
