@@ -12,7 +12,6 @@ import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
-import uk.ac.gla.dcs.bigdata.structures.SteamGameStats;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleanedList;
 import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;

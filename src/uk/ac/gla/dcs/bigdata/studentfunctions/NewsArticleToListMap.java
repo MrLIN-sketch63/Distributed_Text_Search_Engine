@@ -9,7 +9,7 @@ import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleanedList;
 
 public class NewsArticleToListMap implements MapFunction<NewsArticlesCleaned, NewsArticlesCleanedList>{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 12L;
 	@Override
 	public NewsArticlesCleanedList call(NewsArticlesCleaned article) throws Exception {
 		List<NewsArticlesCleaned> asList = new ArrayList<NewsArticlesCleaned>(1);
