@@ -4,21 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90a08098-a3f2-470b-b663-cc6432309749" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+    <list default="true" id="efa3b961-c20c-4739-8579-395c0f689128" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BigData-AE.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BigData-AE.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -30,23 +31,47 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProjectId" id="2MCBBK2dN1EdJukjuWcyBmNul1u" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="90a08098-a3f2-470b-b663-cc6432309749" name="Changes" comment="" />
+      <changelist id="efa3b961-c20c-4739-8579-395c0f689128" name="Changes" comment="" />
       <created>1677197737264</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677197737264</updated>
       <workItem from="1677197738536" duration="11452000" />
+      <workItem from="1677261555383" duration="677000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
 </project>

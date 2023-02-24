@@ -29,11 +29,11 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 	CollectionAccumulator<DocTermFrequency> docTermFrequency;
 
-	Broadcast<String> broadcastAllQueryTerm;
+	//Broadcast<String> broadcastAllQueryTerm;
 
-	public NewsProcessorMap(CollectionAccumulator<DocTermFrequency> docTermFrequency, Broadcast<String> broadcastAllQueryTerm) {
+	public NewsProcessorMap(CollectionAccumulator<DocTermFrequency> docTermFrequency) {
 		this.docTermFrequency =docTermFrequency;
-		this.broadcastAllQueryTerm = broadcastAllQueryTerm;
+	//	this.broadcastAllQueryTerm = broadcastAllQueryTerm;
 	}
 
 
@@ -105,9 +105,9 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		}
 
 		//Test accumulator
-		String allQueryTerms = broadcastAllQueryTerm.value();
-		System.out.println("222222222222222222222222");
-		System.out.println(allQueryTerms);
+		//String allQueryTerms = broadcastAllQueryTerm.value();
+		//System.out.println("222222222222222222222222");
+		//System.out.println(allQueryTerms);
 
 
 		return article;

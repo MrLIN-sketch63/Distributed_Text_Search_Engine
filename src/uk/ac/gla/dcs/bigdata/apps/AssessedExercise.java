@@ -99,19 +99,18 @@ public class AssessedExercise {
 
 	public static List<DocumentRanking> rankDocuments(SparkSession spark, String queryFile, String newsFile) {
 
-		CollectionAccumulator<String> allQueryTerm = spark.sparkContext().collectionAccumulator(); // Accumulator store all terms in queries
+		CollectionAccumulator<List<String>> allQueryTerm = spark.sparkContext().collectionAccumulator(); // Accumulator store all terms in queries
 		// Load queries and news articles
 		Dataset<Row> queriesjson = spark.read().text(queryFile);
 		Dataset<Row> newsjson = spark.read().text(newsFile); // read in files as string rows, one row per article
 		// Perform an initial conversion from Dataset<Row> to Query and NewsArticle Java objects
 		Dataset<Query> queries = queriesjson.map(new QueryFormaterMap(allQueryTerm), Encoders.bean(Query.class)); // this converts each row into a Query
-		queries.show();
 		Dataset<NewsArticle> news = newsjson.map(new NewsFormaterMap(), Encoders.bean(NewsArticle.class)); // this converts each row into a NewsArticle
 
 		//----------------------------------------------------------------
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
-		Broadcast<String> broadcastAllQueryTerm = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTerm.value().toString());
+		//Broadcast<String> broadcastAllQueryTerm = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTerm.value().toString());
 
 		System.out.println("111111111111111111111111111111111111111");
 		System.out.println(allQueryTerm.value());
@@ -120,7 +119,7 @@ public class AssessedExercise {
 
 		Encoder<NewsArticlesCleaned> newsArticleEncoder = Encoders.bean(NewsArticlesCleaned.class);
 
-		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(docTermFrequency, broadcastAllQueryTerm), newsArticleEncoder);
+		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(docTermFrequency), newsArticleEncoder);
 
 
 		Long totalDocsInCorpus = articles.count();

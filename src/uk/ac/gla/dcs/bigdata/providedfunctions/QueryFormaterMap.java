@@ -15,9 +15,9 @@ public class QueryFormaterMap implements MapFunction<Row,Query> {
 
 	private transient TextPreProcessor processor;
 
-	CollectionAccumulator<String> allQueryTerm;
+	CollectionAccumulator<List<String>> allQueryTerm;
 
-	public QueryFormaterMap(CollectionAccumulator<String> allQueryTerm){
+	public QueryFormaterMap(CollectionAccumulator<List<String>> allQueryTerm){
 		this.allQueryTerm = allQueryTerm;
 	}
 
@@ -30,10 +30,12 @@ public class QueryFormaterMap implements MapFunction<Row,Query> {
 		String originalQuery = value.mkString();
 		
 		List<String> queryTerms = processor.process(originalQuery);
+		System.out.println("666666666666666666666666666");
 		System.out.println(queryTerms);
-		for(String q: queryTerms){
-				allQueryTerm.add(q);
-		}
+		allQueryTerm.add(queryTerms);
+		//for(String q: queryTerms){
+		//		allQueryTerm.add(q);
+		//}
 		
 		short[] queryTermCounts = new short[queryTerms.size()];
 		for (int i =0; i<queryTerms.size(); i++) queryTermCounts[i] = (short)1;
