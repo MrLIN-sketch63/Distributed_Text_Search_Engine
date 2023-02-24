@@ -2,15 +2,17 @@ package uk.ac.gla.dcs.bigdata.studentstructures;
 
 import java.io.Serializable;
 
-public class DPHall<String ,newsArticles> implements Serializable{
+import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
+
+public class DPHall implements Serializable{
 	
 	private static final long serialVersionUID = 7309797024926062989L;
 	
 	double DPHsocre;
 	String terms;
-	newsArticles article;
+	NewsArticle article;
 	
-	public DPHall(double dPHsocre, String terms, newsArticles article) {
+	public DPHall(double dPHsocre, String terms, NewsArticle  article) {
 		super();
 		DPHsocre = dPHsocre;
 		this.terms = terms;
@@ -28,10 +30,10 @@ public class DPHall<String ,newsArticles> implements Serializable{
 	public void setTerms(String terms) {
 		this.terms = terms;
 	}
-	public newsArticles getArticle() {
+	public NewsArticle getArticle() {
 		return article;
 	}
-	public void setArticle(newsArticles article) {
+	public void setArticle(NewsArticle  article) {
 		this.article = article;
 	}
 

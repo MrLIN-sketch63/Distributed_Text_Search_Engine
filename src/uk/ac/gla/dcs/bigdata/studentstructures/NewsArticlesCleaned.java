@@ -37,6 +37,11 @@ public class NewsArticlesCleaned implements Serializable {
 	}
 
 
+	public NewsArticlesCleaned() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public Long getDoc_length() {
 		return doc_length;
 	}

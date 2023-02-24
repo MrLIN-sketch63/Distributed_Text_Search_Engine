@@ -17,8 +17,7 @@ public class TermArticle implements Serializable{
 		this.article = article;
 	}
 	
-	
-	
+
 	public String getTerm() {
 		return term;
 	}
@@ -34,3 +33,4 @@ public class TermArticle implements Serializable{
 	
 	
 }
+

@@ -19,7 +19,7 @@ import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
-import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
+
 
 
 /**Qixiang Mo**/
