@@ -1,10 +1,13 @@
 package uk.ac.gla.dcs.bigdata.apps;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.*;
@@ -17,10 +20,12 @@ import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.studentfunctions.*;
+import uk.ac.gla.dcs.bigdata.studentfunctions.reducor.DocLengthSumReducer;
 import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
 /**
@@ -139,23 +144,41 @@ public class AssessedExercise {
 		termAndFrequency.show();
 		//System.out.println(termAndFrequency);
 		
-		//
+//		//QueryTerm - Document
+		Broadcast<Dataset<NewsArticlesCleaned>> broadcastCleanedNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
+		List<String> termsList = new ArrayList() ;
+		termsList.add("green");
+		termsList.add("red");
+		Dataset<String> dataTermList = spark.createDataset(termsList, Encoders.STRING());
+		
+		
+		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
+		Dataset<TermArticle> termArtciels = dataTermList.flatMap(new TermArticleMap(dataTermList,broadcastCleanedNews), termArticleEncoder);
+		System.out.println(termArtciels.collectAsList());
+		///
+	
+
+		
+		
+//		
+//		
+//		//
 		Broadcast<Dataset<DocTermFrequency>> broadcastDocTermFrequencyDataset = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(DocTermFrequencyDataset);
 		Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termAndFrequency);
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
-		Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
+
 //	
 		///DPH
-		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
-
-		Dataset<DPHall> DPH = .map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
-												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);
-		
-		List<DPHall> DPHList = DPH.collectAsList();
-		for (DPHall DPHitem: DPHList){
-			System.out.println(DPHitem.getDPHsocre());}
-		
+//		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
+//
+//		Dataset<DPHall> DPH = .map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
+//												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);
+//		
+//		List<DPHall> DPHList = DPH.collectAsList();
+//		for (DPHall DPHitem: DPHList){
+//			System.out.println(DPHitem.getDPHsocre());}
+//		
 		
 		//reduce
 //		Encoder<RankedResultList> rankedResultListtEncoder = Encoders.bean(RankedResultList.class);

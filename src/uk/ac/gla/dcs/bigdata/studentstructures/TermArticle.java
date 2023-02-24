@@ -9,9 +9,9 @@ public class TermArticle implements Serializable{
 	
 	
 	String term;
-	NewsArticle article;
+	NewsArticlesCleaned article;
 	
-	public TermArticle(String term, NewsArticle article) {
+	public TermArticle(String term, NewsArticlesCleaned article) {
 		super();
 		this.term = term;
 		this.article = article;
@@ -24,10 +24,10 @@ public class TermArticle implements Serializable{
 	public void setTerm(String term) {
 		this.term = term;
 	}
-	public NewsArticle getArticle() {
+	public NewsArticlesCleaned getArticle() {
 		return article;
 	}
-	public void setArticle(NewsArticle article) {
+	public void setArticle(NewsArticlesCleaned article) {
 		this.article = article;
 	}
 	
