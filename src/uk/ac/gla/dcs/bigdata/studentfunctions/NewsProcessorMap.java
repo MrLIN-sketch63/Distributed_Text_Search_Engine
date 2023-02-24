@@ -19,6 +19,7 @@ import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
 /**Qixiang Mo**/
@@ -85,7 +86,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		}
 
 
-		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, newsParagraph, doc_length);
+		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, value, doc_length);
 		//System.out.println(article.getContent());
 		System.out.println(article.getDoc_length());
 
@@ -107,6 +108,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 			Long cur_frequency = entry.getValue();
 			DocTermFrequency cur_doctermfreq = new DocTermFrequency(newsID, cur_term, cur_frequency.shortValue(), doc_length.intValue());
 			docTermFrequency.add(cur_doctermfreq);
+			
 		}
 
 		return article;

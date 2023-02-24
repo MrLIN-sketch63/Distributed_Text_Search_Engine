@@ -139,18 +139,18 @@ public class AssessedExercise {
 		termAndFrequency.show();
 		//System.out.println(termAndFrequency);
 		
+		//
+		Broadcast<Dataset<DocTermFrequency>> broadcastDocTermFrequencyDataset = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(DocTermFrequencyDataset);
 		Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termAndFrequency);
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
-		Broadcast<Dataset<NewsArticle>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(news);
-		
-		
-		
+//		Broadcast<Dataset<NewsArticle>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(news);
+//	
 		///DPH
-		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
-
-		Dataset<DPHall> DPH = docTermFrequency.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
-												broadcastAverageDocumentLengthInCorpus,broadcastNews), dphEncoder);
+//		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
+//
+//		Dataset<DPHall> DPH = docTermFrequency.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
+//												broadcastAverageDocumentLengthInCorpus,docTermFrequency), dphEncoder);
 		
 		
 		//reduce
