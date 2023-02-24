@@ -21,6 +21,7 @@ import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 
 
+
 /**Qixiang Mo**/
 public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCleaned> {
 	private static final long serialVersionUID = -4631167868446468000L;
@@ -29,12 +30,10 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 	CollectionAccumulator<DocTermFrequency> docTermFrequency;
 
-	//Broadcast<String> broadcastAllQueryTerm;
-
 	public NewsProcessorMap(CollectionAccumulator<DocTermFrequency> docTermFrequency) {
 		this.docTermFrequency =docTermFrequency;
-	//	this.broadcastAllQueryTerm = broadcastAllQueryTerm;
 	}
+
 
 
 	@Override
@@ -87,33 +86,33 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		}
 
 
-		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, newsParagraph, doc_length);
+		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, value, doc_length);
 		//System.out.println(article.getContent());
-		//System.out.println(article.getDoc_length());
+		System.out.println(article.getDoc_length());
 
-
-		termfrequency = article.getWordMap(); // get hashmap
-		//System.out.println(termfrequency);
-
+//		List<String> allTerms = article.getContent();
+//
+//		for (String term : allTerms) {
+//			if (termfrequency.containsKey(term)) {
+//				termfrequency.put(term, termfrequency.get(term) + (long) 1);
+//			} else {
+//				termfrequency.put(term, (long) 1);
+//			}
+//		}
+		termfrequency = article.getWordMap();
+		System.out.println(termfrequency);
 
 		for (Map.Entry<String, Long> entry: termfrequency.entrySet()) {
 			//System.out.println("key:" + entry.getKey() + ",vaule:" + entry.getValue());
 			String cur_term = entry.getKey();
 			Long cur_frequency = entry.getValue();
-			DocTermFrequency cur_doctermfreq = new DocTermFrequency(newsID, cur_term, cur_frequency);
+			DocTermFrequency cur_doctermfreq = new DocTermFrequency(newsID, cur_term, cur_frequency.shortValue(), doc_length.intValue());
 			docTermFrequency.add(cur_doctermfreq);
+			
 		}
-
-		//Test accumulator
-		//String allQueryTerms = broadcastAllQueryTerm.value();
-		//System.out.println("222222222222222222222222");
-		//System.out.println(allQueryTerms);
-
 
 		return article;
 	}
 
 }
-
-
 

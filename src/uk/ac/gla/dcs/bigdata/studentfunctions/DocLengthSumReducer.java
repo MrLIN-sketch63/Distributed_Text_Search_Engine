@@ -2,6 +2,8 @@ package uk.ac.gla.dcs.bigdata.studentfunctions;
 
 import org.apache.spark.api.java.function.ReduceFunction;
 
+import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
+
 
 public class DocLengthSumReducer implements ReduceFunction<Long>{
 

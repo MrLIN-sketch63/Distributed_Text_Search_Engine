@@ -20,4 +20,3 @@ public class DocLengthMap implements MapFunction<NewsArticlesCleaned, Long>{
 	}
 
 }
-
