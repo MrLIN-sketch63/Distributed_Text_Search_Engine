@@ -29,10 +29,12 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 	CollectionAccumulator<DocTermFrequency> docTermFrequency;
 
-	public NewsProcessorMap(CollectionAccumulator<DocTermFrequency> docTermFrequency) {
-		this.docTermFrequency =docTermFrequency;
-	}
+	Broadcast<String> broadcastAllQueryTerm;
 
+	public NewsProcessorMap(CollectionAccumulator<DocTermFrequency> docTermFrequency, Broadcast<String> broadcastAllQueryTerm) {
+		this.docTermFrequency =docTermFrequency;
+		this.broadcastAllQueryTerm = broadcastAllQueryTerm;
+	}
 
 
 	@Override
@@ -87,19 +89,12 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, newsParagraph, doc_length);
 		//System.out.println(article.getContent());
-		System.out.println(article.getDoc_length());
+		//System.out.println(article.getDoc_length());
 
-		List<String> allTerms = article.getContent();
 
-		for (String term : allTerms) {
-			if (termfrequency.containsKey(term)) {
-				termfrequency.put(term, termfrequency.get(term) + (long) 1);
-			} else {
-				termfrequency.put(term, (long) 1);
-			}
-		}
+		termfrequency = article.getWordMap(); // get hashmap
+		//System.out.println(termfrequency);
 
-		System.out.println(termfrequency);
 
 		for (Map.Entry<String, Long> entry: termfrequency.entrySet()) {
 			//System.out.println("key:" + entry.getKey() + ",vaule:" + entry.getValue());
@@ -109,8 +104,16 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 			docTermFrequency.add(cur_doctermfreq);
 		}
 
+		//Test accumulator
+		String allQueryTerms = broadcastAllQueryTerm.value();
+		System.out.println("222222222222222222222222");
+		System.out.println(allQueryTerms);
+
+
 		return article;
 	}
 
 }
+
+
 

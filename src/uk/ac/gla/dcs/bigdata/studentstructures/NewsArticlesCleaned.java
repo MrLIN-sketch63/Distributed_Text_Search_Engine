@@ -2,12 +2,13 @@ package uk.ac.gla.dcs.bigdata.studentstructures;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class NewsArticlesCleaned implements Serializable {
 	private static final long serialVersionUID = 7860293794078492243L;
-	
+
 	String id; // unique article identifier
 	List<String> title; // article title
 	List<String> paragraph; // the contents of the paragraph // the contents of the title and the paragraph
@@ -15,7 +16,9 @@ public class NewsArticlesCleaned implements Serializable {
 	List<String> content = new ArrayList<String>();
 	Long doc_length;
 	List<String> titleAndParagraphTerms = new ArrayList<String>();
-	
+
+	HashMap<String, Long> wordMap = new HashMap<String, Long>();
+
 	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, String originalNews, Long doc_length) {
 		super();
 		this.id = id;
@@ -26,6 +29,8 @@ public class NewsArticlesCleaned implements Serializable {
 
 		if(this.title != null) this.content.addAll(this.title);
 		if(this.content != null) this.content.addAll(this.paragraph);
+
+		WordFrequency();
 
 	}
 
@@ -67,9 +72,26 @@ public class NewsArticlesCleaned implements Serializable {
 	public List<String> getParagraph() {
 		return paragraph;
 	}
+	public HashMap<String, Long> getWordMap() {
+		return wordMap;
+	}
+
+
 	public void setParagraph(List<String> paragraph) {
 		this.paragraph = paragraph;
 	}
-	
+
+	public void WordFrequency() {
+
+		for (String word : this.content) {
+			if (this.wordMap.containsKey(word)) {
+				wordMap.put(word, wordMap.get(word) + (long)1);
+			} else {
+				wordMap.put(word, (long) 1);
+			}
+		}
+	}
+
 
 }
+
