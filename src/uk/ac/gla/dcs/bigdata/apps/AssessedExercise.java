@@ -2,7 +2,11 @@ package uk.ac.gla.dcs.bigdata.apps;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.*;
 import org.apache.spark.util.CollectionAccumulator;
 
@@ -13,6 +17,7 @@ import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.studentfunctions.*;
+import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
@@ -133,6 +138,20 @@ public class AssessedExercise {
 		Dataset<Tuple2<String,Long>> termAndFrequency = DocByTerm.mapGroups(totalFrequency, termFrequencyEncoder);
 		termAndFrequency.show();
 		//System.out.println(termAndFrequency);
+		
+		Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termAndFrequency);
+		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
+		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
+		Broadcast<Dataset<NewsArticle>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(news);
+		
+		
+		
+		///DPH
+		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
+
+		Dataset<DPHall> DPH = docTermFrequency.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
+												broadcastAverageDocumentLengthInCorpus,broadcastNews), dphEncoder);
+		
 		
 		//reduce
 //		Encoder<RankedResultList> rankedResultListtEncoder = Encoders.bean(RankedResultList.class);

@@ -14,21 +14,41 @@ public class DocTermFrequency implements Serializable {
 	
 	String id; 
 	String term; 
-	Long frequency;
+	short frequency;
+	Double socre;
+	int doc_length;
 	
-	public DocTermFrequency(String id, String term, Long frequency) {
+	public DocTermFrequency(){
+	}
+
+	public DocTermFrequency(String id, String term, short frequency, int doc_length) {
 		super();
 		this.id = id;
 		this.term = term;
 		this.frequency = frequency;
+		this.doc_length = doc_length;
 		
 	}
 
-	public DocTermFrequency(){
-	}
 
 	public String getId() {
 		return id;
+	}
+
+	public Double getSocre() {
+		return socre;
+	}
+
+	public void setSocre(Double socre) {
+		this.socre = socre;
+	}
+
+	public int getDoc_length() {
+		return doc_length;
+	}
+
+	public void setDoc_length(int doc_length) {
+		this.doc_length = doc_length;
 	}
 
 	public void setId(String id) {
@@ -43,15 +63,14 @@ public class DocTermFrequency implements Serializable {
 		this.term = term;
 	}
 
-	public Long getFrequency() {
+	public short getFrequency() {
 		return frequency;
 	}
 
-	public void setFrequency(Long frequency) {
+	public void setFrequency(short frequency) {
 		this.frequency = frequency;
 	}
-	
-	
+		
 	
 
 }

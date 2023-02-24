@@ -105,7 +105,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 			//System.out.println("key:" + entry.getKey() + ",vaule:" + entry.getValue());
 			String cur_term = entry.getKey();
 			Long cur_frequency = entry.getValue();
-			DocTermFrequency cur_doctermfreq = new DocTermFrequency(newsID, cur_term, cur_frequency);
+			DocTermFrequency cur_doctermfreq = new DocTermFrequency(newsID, cur_term, cur_frequency.shortValue(), doc_length.intValue());
 			docTermFrequency.add(cur_doctermfreq);
 		}
 
