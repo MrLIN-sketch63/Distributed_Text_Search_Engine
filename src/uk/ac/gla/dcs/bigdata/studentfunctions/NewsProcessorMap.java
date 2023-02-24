@@ -89,16 +89,16 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		//System.out.println(article.getContent());
 		System.out.println(article.getDoc_length());
 
-		List<String> allTerms = article.getContent();
-
-		for (String term : allTerms) {
-			if (termfrequency.containsKey(term)) {
-				termfrequency.put(term, termfrequency.get(term) + (long) 1);
-			} else {
-				termfrequency.put(term, (long) 1);
-			}
-		}
-
+//		List<String> allTerms = article.getContent();
+//
+//		for (String term : allTerms) {
+//			if (termfrequency.containsKey(term)) {
+//				termfrequency.put(term, termfrequency.get(term) + (long) 1);
+//			} else {
+//				termfrequency.put(term, (long) 1);
+//			}
+//		}
+		termfrequency = article.getWordMap();
 		System.out.println(termfrequency);
 
 		for (Map.Entry<String, Long> entry: termfrequency.entrySet()) {
