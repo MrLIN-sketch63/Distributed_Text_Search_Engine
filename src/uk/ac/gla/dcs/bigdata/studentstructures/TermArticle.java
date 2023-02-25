@@ -10,8 +10,10 @@ public class TermArticle implements Serializable{
 	
 	String term;
 	NewsArticle article;
+	int frequency = 0;
 	
-	public TermArticle() {}
+	public TermArticle() {
+	}
 	
 	public TermArticle(String term, NewsArticle article) {
 		super();
@@ -32,6 +34,8 @@ public class TermArticle implements Serializable{
 	public void setArticle(NewsArticle article) {
 		this.article = article;
 	}
+	
+	
 	
 	
 }

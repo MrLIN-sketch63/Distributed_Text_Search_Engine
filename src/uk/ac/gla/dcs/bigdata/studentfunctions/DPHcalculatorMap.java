@@ -99,7 +99,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 		//
 		totalDocsInCorpus = broadcastTotalDocsInCorpus.value();
 		
-		double DPHsocre= scorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
+		double DPHsocre= DPHScorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
 		
 		//
 //		Dataset<NewsArticle> news = broadcastNews.value();

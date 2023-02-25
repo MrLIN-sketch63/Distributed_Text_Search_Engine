@@ -1,4 +1,4 @@
-package uk.ac.gla.dcs.bigdata.studentfunctions;
+package uk.ac.gla.dcs.bigdata.studentfunctions.flatMap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,15 +29,17 @@ public class TermArticleMap implements FlatMapFunction<NewsArticle,TermArticle>{
 	//Global data
 //	Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews;
 	
-	List<String> termsList;
+	Broadcast<List<String>> broadcastTermsList;
 	
-	public  TermArticleMap(List<String> termsList) {
-		this.termsList = termsList;
+	public  TermArticleMap(Broadcast<List<String>> broadcastTermsList) {
+		this.broadcastTermsList = broadcastTermsList;
 	}
 
 	@Override
 	public Iterator<TermArticle> call(NewsArticle article) throws Exception {
 		List<TermArticle> termArticle = new ArrayList<>();
+		
+		List<String> termsList = broadcastTermsList.value();
 		
 		for (String term : termsList) {
 			termArticle.add(new TermArticle(term, article));

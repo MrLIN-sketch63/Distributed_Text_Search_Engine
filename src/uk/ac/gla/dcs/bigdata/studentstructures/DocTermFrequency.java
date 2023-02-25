@@ -71,6 +71,14 @@ public class DocTermFrequency implements Serializable {
 		this.frequency = frequency;
 	}
 		
-	
+	public short frequencySearch(String id, String term) {
+		if(this.id.equals(id)&& this.term.equals(term)) {
+			return this.frequency;
+		}
+		
+		else {
+			return 0;
+		}
+	}
 
 }
