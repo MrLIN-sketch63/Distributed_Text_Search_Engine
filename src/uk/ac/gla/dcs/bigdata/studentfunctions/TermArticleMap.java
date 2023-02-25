@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.management.Query;
 
+import org.apache.commons.net.nntp.Article;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.FlatMapGroupsFunction;
 import org.apache.spark.api.java.function.MapFunction;
@@ -19,7 +20,7 @@ import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
 
-public class TermArticleMap implements FlatMapFunction<String,TermArticle>{
+public class TermArticleMap implements FlatMapFunction<NewsArticlesCleaned,TermArticle>{
 	
 	/**
 	 * 
@@ -28,34 +29,25 @@ public class TermArticleMap implements FlatMapFunction<String,TermArticle>{
 	//Global data
 //	Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews;
 	
-	Dataset<String> termsList;
-	Broadcast<Dataset<NewsArticlesCleaned>> broadcastCleanedNews ;
+	List<String> termsList;
 	
-	public  TermArticleMap(Dataset<String> termsList,Broadcast<Dataset<NewsArticlesCleaned>> broadcastCleanedNews ) {
-		this.broadcastCleanedNews = broadcastCleanedNews;
+	public  TermArticleMap(List<String> termsList) {
 		this.termsList = termsList;
 	}
 
+	@Override
+	public Iterator<TermArticle> call(NewsArticlesCleaned article) throws Exception {
+		List<TermArticle> termArticle = new ArrayList<>();
+		
+		for (String term : termsList) {
+			termArticle.add(new TermArticle(term, article));
+        }
+		return termArticle.iterator();
+	}
+	
 	
 
-	@Override
-	public Iterator<TermArticle> call(String value) throws Exception {
-		// TODO Auto-generated method stub
-		List<TermArticle> termArticleList =  new ArrayList<TermArticle>();
-		List<NewsArticlesCleaned> newsList = new ArrayList<NewsArticlesCleaned>();
-		
-		Dataset<NewsArticlesCleaned> cleanedNews = broadcastCleanedNews.value();
-		newsList = cleanedNews.collectAsList();
-		Iterator<NewsArticlesCleaned> newsIterator =  newsList.iterator();
-		
-		while(newsIterator.hasNext()){
-			if(newsIterator.next()!=null)
-				termArticleList.add(new TermArticle(value, newsIterator.next()));		
-			}
-		
-		return termArticleList.iterator();
-		
-	
-	}
+
+
 	
 }
