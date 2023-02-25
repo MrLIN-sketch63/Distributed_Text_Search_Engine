@@ -29,17 +29,18 @@ public class TermArticleMap implements FlatMapFunction<NewsArticle,TermArticle>{
 	//Global data
 //	Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews;
 	
-	Broadcast<List<String>> broadcastTermsList;
+	//Broadcast<List<String>> broadcastTermsList;
+	Broadcast<List<String>> broadcastAlQueryTermsToList;
 	
-	public  TermArticleMap(Broadcast<List<String>> broadcastTermsList) {
-		this.broadcastTermsList = broadcastTermsList;
+	public  TermArticleMap(Broadcast<List<String>> broadcastAlQueryTermsToList) {
+		this.broadcastAlQueryTermsToList = broadcastAlQueryTermsToList;
 	}
 
 	@Override
 	public Iterator<TermArticle> call(NewsArticle article) throws Exception {
 		List<TermArticle> termArticle = new ArrayList<>();
 		
-		List<String> termsList = broadcastTermsList.value();
+		List<String> termsList = broadcastAlQueryTermsToList.value();
 		
 		for (String term : termsList) {
 			termArticle.add(new TermArticle(term, article));
