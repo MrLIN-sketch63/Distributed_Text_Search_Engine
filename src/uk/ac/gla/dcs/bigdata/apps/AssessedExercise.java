@@ -153,7 +153,7 @@ public class AssessedExercise {
 		Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termAndFrequency);
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
-		Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
+		//Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
 //
 		///DPH
 		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
