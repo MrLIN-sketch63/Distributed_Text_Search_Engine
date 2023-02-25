@@ -25,7 +25,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 	
 	private static final long serialVersionUID = -4631167868446469099L;
 
-	private transient DPHScorer scorer;
+//	private transient DPHScorer scorer;
 
 	
 	//Global Data
@@ -51,8 +51,8 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 	@Override
 	public DPHall call(TermArticle value) throws Exception {
 		
-		if (scorer==null) scorer = new DPHScorer();
-		
+//		if (scorer==null) new DPHScorer();
+//		
 		
 		
 		short termFrequencyInCurrentDocument = 0;
@@ -63,18 +63,17 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 		String term = "";
 		String newsID = "";
 		NewsArticle article = new NewsArticle();
-	
-		
 		
 		term = value.getTerm();
 		article = value.getArticle();
 		newsID = article.getId();
-				
+//		System.out.println(term);	
 		List<DocTermFrequency> docTermFrequencyList = this.broadcastDocTermFrequencyDataset.value();
 		for(DocTermFrequency docTerm:docTermFrequencyList) {
 			if(docTerm.getTerm().equals(term) && docTerm.getId().equals(newsID)){
 				termFrequencyInCurrentDocument = docTerm.getFrequency();
 				currentDocumentLength = docTerm.getDoc_length();
+//				System.out.println(termFrequencyInCurrentDocument+currentDocumentLength);
 			}
 		}
 		
@@ -95,20 +94,14 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 		
 		//
 		averageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus.value();
-		
+//		System.out.println(averageDocumentLengthInCorpus);
 		//
 		totalDocsInCorpus = broadcastTotalDocsInCorpus.value();
-		
+//		System.out.println(totalDocsInCorpus);
+//		System.out.println(termFrequencyInCurrentDocument+" "+totalTermFrequencyInCorpus+" "+
+//				currentDocumentLength+" "+averageDocumentLengthInCorpus+" "+totalDocsInCorpus);
 		double DPHsocre= DPHScorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
-		System.out.println("1111111111111111111");
-		System.out.println("termFrequencyInCurrentDocument: " + termFrequencyInCurrentDocument);
-		System.out.println("totalTermFrequencyInCorpus: " + totalTermFrequencyInCorpus);
-		System.out.println("currentDocumentLength: " + currentDocumentLength);
-		System.out.println("averageDocumentLengthInCorpus: " + averageDocumentLengthInCorpus);
-		System.out.println("totalDocsInCorpus: " + totalDocsInCorpus);
-		System.out.println("DPHsocre: " + DPHsocre);
-
-
+//		System.out.println(DPHsocre);
 		//
 //		Dataset<NewsArticle> news = broadcastNews.value();
 //		List<NewsArticle> newsList = news.collectAsList();
@@ -120,10 +113,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 //		}
 		
 		DPHall allResults = new DPHall(DPHsocre, term, article);
-
-
-
-		
+//		System.out.println(allResults.getDPHscore());
 		return allResults;
 	}
 

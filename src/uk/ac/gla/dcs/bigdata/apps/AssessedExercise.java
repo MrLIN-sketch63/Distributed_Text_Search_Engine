@@ -106,6 +106,7 @@ public class AssessedExercise {
 
 	public static List<DocumentRanking> rankDocuments(SparkSession spark, String queryFile, String newsFile) {
 
+		
 		CollectionAccumulator<String> allQueryTerms = spark.sparkContext().collectionAccumulator();
 		// Load queries and news articles
 		Dataset<Row> queriesjson = spark.read().text(queryFile);
@@ -115,26 +116,27 @@ public class AssessedExercise {
 		queries.show();
 		Dataset<NewsArticle> news = newsjson.map(new NewsFormaterMap(), Encoders.bean(NewsArticle.class)); // this converts each row into a NewsArticle
 
-
-		//System.out.println(allQueryTerms.value());
 		//----------------------------------------------------------------
 		// Your Spark Topology should be defined here
 		//----------------------------------------------------------------
-
+		
+		//convert query into Set, remove duplicated terms,and finally convert back to List
 		Set<String> allQueryTermsToSet = new HashSet<>();   //delete duplicate element
 		allQueryTermsToSet.addAll(allQueryTerms.value());
 		List<String> allQueryTermsToList = new ArrayList<String>(allQueryTermsToSet);
-		System.out.println("555555555555555555555555");
-		System.out.println(allQueryTermsToList);
-
+//		System.out.println(allQueryTermsToList);
+		
+		
+		//doc to Term frequency accumulator
 		CollectionAccumulator<DocTermFrequency> docTermFrequency = spark.sparkContext().collectionAccumulator();
 
+		
+		//convert article into cleanedarticle
 		Encoder<NewsArticlesCleaned> newsArticleEncoder = Encoders.bean(NewsArticlesCleaned.class);
-
 		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(docTermFrequency), newsArticleEncoder);
 
+		//word count
 		Long totalDocsInCorpus = articles.count();
-//		System.out.println(articles.count());
 
 		Dataset<Long> docLength = articles.map(new DocLengthMap(), Encoders.LONG());
 		Long docLengthSUM = docLength.reduce(new DocLengthSumReducer());
@@ -155,14 +157,21 @@ public class AssessedExercise {
 
 		Encoder<Tuple2<String,Long>> termFrequencyEncoder = Encoders.tuple(Encoders.STRING(), Encoders.LONG());
 		Dataset<Tuple2<String,Long>> termAndFrequency = DocByTerm.mapGroups(totalFrequency, termFrequencyEncoder);
-		//termAndFrequency.show();
+		termAndFrequency.show();
 		//System.out.println(termAndFrequency);
 		
 //		//QueryTerm - Document
 //		Broadcast<Dataset<NewsArticlesCleaned>> broadcastCleanedNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
+		
 
-//
-		Broadcast<List<String>> broadcastAlQueryTermsToList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToList);
+	
+			
+	
+		//broadcastAlQueryTermsToSet
+		Broadcast<List<String>> broadcastAllQueryTermsToList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToList);
+		
+		
+		//group of broadcast
 		List <DocTermFrequency> DocTermFrequencyDatasetList =  DocTermFrequencyDataset.collectAsList();
 		Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(DocTermFrequencyDatasetList);
 		List <Tuple2<String, Long>> TermAndFrequencyList = termAndFrequency.collectAsList();
@@ -170,23 +179,23 @@ public class AssessedExercise {
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
 		
-		
-//		for(DocTermFrequency a :DocTermFrequencyDatasetList) {
-//			System.out.println(a.getId()+" "+a.getTerm()+a.getFrequency());	
-//		}
+
 		
 		//test query
-		/*List<String> termsList = new ArrayList<String>() ;
-		termsList.add("boykin");
-		termsList.add("www");
-		termsList.add("zzz");
-
-		System.out.println(termsList);
-		Broadcast<List<String>> broadcastTermsList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termsList);
-		*/
-
+//		List<String> termsList = new ArrayList<String>() ;
+//		termsList.add("boykin");
+//		termsList.add("green");
+//		termsList.add("big");
+//		System.out.println(termsList);
+//		Broadcast<List<String>> broadcastTermsList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termsList);
+		
+		
+		//map news to termArticle
+//		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
+//		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(broadcastTermsList), termArticleEncoder);
+//		System.out.println("termArticle:" + termArtcles.count());
 		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
-		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(broadcastAlQueryTermsToList), termArticleEncoder);
+		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(broadcastAllQueryTermsToList), termArticleEncoder);
 		System.out.println("termArticle:" + termArtcles.count());
 	
 //	
@@ -200,11 +209,11 @@ public class AssessedExercise {
 		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
 
 		Dataset<DPHall> DPH = FilteredtermArtcles.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
-												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);
-
-		List<DPHall> DPHList = DPH.collectAsList();
-		for (DPHall DPHitem: DPHList){
-			System.out.print(DPHitem.getDPHscore());}
+												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);	
+		DPH.foreach(dphall -> {
+		    // Do something with each DPHall object
+		    System.out.println(dphall.getDPHscore());
+		});
 		
 		
 		//reduce

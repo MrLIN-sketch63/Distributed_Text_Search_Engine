@@ -6,7 +6,7 @@ import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
 public class DPHall implements Serializable{
 	
-	private static final long serialVersionUID = 7309797024926062989L;
+	private static final long serialVersionUID = 7309797024926066989L;
 	
 	double DPHscore;
 	String terms;
@@ -22,6 +22,12 @@ public class DPHall implements Serializable{
 		this.terms = terms;
 		this.article = article;
 	}
+	@Override
+	public String toString() {
+		return "DPHall [DPHscore=" + DPHscore + ", terms=" + terms + ", article=" + article + "]";
+	}
+
+
 	public double getDPHscore() {
 		return DPHscore;
 	}

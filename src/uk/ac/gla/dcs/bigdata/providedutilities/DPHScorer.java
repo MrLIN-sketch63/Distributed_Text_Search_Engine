@@ -30,8 +30,7 @@ public class DPHScorer {
 			double averageDocumentLengthInCorpus,//所有文档的平均长度
 			long totalDocsInCorpus//一共有多少个文件在数据集中
 			) {
-		
-							
+
 					// calculate the f and normalization components of DPH
 					double f = WeightingModelLibrary.relativeFrequency(termFrequencyInCurrentDocument, currentDocumentLength);
 					double norm = (1d-f) * (1d -f)/(termFrequencyInCurrentDocument+1d);
@@ -47,6 +46,4 @@ public class DPHScorer {
 					return DPHScore;
 		
 	}
-
-	
 }
