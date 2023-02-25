@@ -20,7 +20,7 @@ import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
 
-public class TermArticleMap implements FlatMapFunction<NewsArticlesCleaned,TermArticle>{
+public class TermArticleMap implements FlatMapFunction<NewsArticle,TermArticle>{
 	
 	/**
 	 * 
@@ -36,7 +36,7 @@ public class TermArticleMap implements FlatMapFunction<NewsArticlesCleaned,TermA
 	}
 
 	@Override
-	public Iterator<TermArticle> call(NewsArticlesCleaned article) throws Exception {
+	public Iterator<TermArticle> call(NewsArticle article) throws Exception {
 		List<TermArticle> termArticle = new ArrayList<>();
 		
 		for (String term : termsList) {

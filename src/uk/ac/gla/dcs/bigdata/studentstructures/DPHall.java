@@ -12,6 +12,10 @@ public class DPHall implements Serializable{
 	String terms;
 	NewsArticle article;
 	
+	
+	public DPHall() {}
+	
+	
 	public DPHall(double dPHscore, String terms, NewsArticle  article) {
 		super();
 		this.DPHscore = dPHscore;

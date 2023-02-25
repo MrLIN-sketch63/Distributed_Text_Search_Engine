@@ -29,22 +29,20 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 
 	
 	//Global Data
-	Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency;
+	Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency;
 	Broadcast<Long> broadcastTotalDocsInCorpus;
 	Broadcast<Double> broadcastAverageDocumentLengthInCorpus;
-	Broadcast<Dataset<NewsArticle>> broadcastNews;
-	Broadcast<Dataset<DocTermFrequency>> broadcastDocTermFrequencyDataset;
+	Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset;
 	
 	
 	
-	public DPHcalculatorMap(Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency,
+	public DPHcalculatorMap(Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency,
 			Broadcast<Long> broadcastTotalDocsInCorpus, Broadcast<Double> broadcastAverageDocumentLengthInCorpus, 
-			Broadcast<Dataset<DocTermFrequency>> broadcastDocTermFrequencyDataset) {
+			Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset) {
 		super();
 		this.broadcastTermAndFrequency = broadcastTermAndFrequency;
 		this.broadcastTotalDocsInCorpus = broadcastTotalDocsInCorpus;
 		this.broadcastAverageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus;
-//		this.broadcastNews = broadcastNews;
 		this.broadcastDocTermFrequencyDataset = broadcastDocTermFrequencyDataset;
 	}
 
@@ -72,8 +70,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 		article = value.getArticle();
 		newsID = article.getId();
 				
-		Dataset<DocTermFrequency> docTermFrequencyDataset = this.broadcastDocTermFrequencyDataset.value();
-		List<DocTermFrequency> docTermFrequencyList = docTermFrequencyDataset.collectAsList();
+		List<DocTermFrequency> docTermFrequencyList = this.broadcastDocTermFrequencyDataset.value();
 		for(DocTermFrequency docTerm:docTermFrequencyList) {
 			if(docTerm.getTerm().equals(term) && docTerm.getId().equals(newsID)){
 				termFrequencyInCurrentDocument = docTerm.getFrequency();
@@ -82,8 +79,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 		}
 		
 		//
-		Dataset<Tuple2<String,Long>> termAndFrequency = broadcastTermAndFrequency.value();
-		List<Tuple2<String,Long>> termAndFrequencyList = termAndFrequency.collectAsList();
+		List<Tuple2<String,Long>> termAndFrequencyList = broadcastTermAndFrequency.value();
 		Iterator<Tuple2<String, Long>> tupleIterator = termAndFrequencyList.iterator();
 		
 		while (tupleIterator.hasNext()) {

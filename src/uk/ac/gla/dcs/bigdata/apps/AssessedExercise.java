@@ -157,15 +157,15 @@ public class AssessedExercise {
 		
 		//test query
 		List<String> termsList = new ArrayList<String>() ;
-		termsList.add("green");
-		termsList.add("red");
+		termsList.add("finance");
 		termsList.add("on");
+		termsList.add("Facebook");
 //		Dataset<String> dataTermList = spark.createDataset(termsList, Encoders.STRING());
 //		System.out.println(broadcastCleanedNews.value().collectAsList());
 		
 		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
-		Dataset<TermArticle> termArtciels = articles.flatMap(new TermArticleMap(termsList), termArticleEncoder);
-		System.out.println(termArtciels.collectAsList());
+		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(termsList), termArticleEncoder);
+		System.out.println(termArtcles.collectAsList());
 		///
 	
 
@@ -175,21 +175,26 @@ public class AssessedExercise {
 //		
 //		//
 		Broadcast<Set<String>> broadcastAlQueryTermsToSet = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToSet);
-		Broadcast<Dataset<DocTermFrequency>> broadcastDocTermFrequencyDataset = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(DocTermFrequencyDataset);
-		Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termAndFrequency);
+		
+		//
+		List <DocTermFrequency> DocTermFrequencyDatasetList =  DocTermFrequencyDataset.collectAsList();
+		Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(DocTermFrequencyDatasetList);
+		List <Tuple2<String, Long>> TermAndFrequencyList = termAndFrequency.collectAsList();
+		Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(TermAndFrequencyList);
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
 
 //	
 		///DPH
-//		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
-//
-//		Dataset<DPHall> DPH = .map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
-//												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);
-//		
-//		List<DPHall> DPHList = DPH.collectAsList();
-//		for (DPHall DPHitem: DPHList){
-//			System.out.println(DPHitem.getDPHsocre());}
+		System.out.println("We are calculating DPH score");
+		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
+
+		Dataset<DPHall> DPH = termArtcles.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
+												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);
+		
+		List<DPHall> DPHList = DPH.collectAsList();
+		for (DPHall DPHitem: DPHList){
+			System.out.print(DPHitem.getDPHscore());}
 //		
 		
 		//reduce
