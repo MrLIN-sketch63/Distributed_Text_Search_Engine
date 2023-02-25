@@ -165,7 +165,7 @@ public class AssessedExercise {
 		
 		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
 		Dataset<TermArticle> termArtciels = articles.flatMap(new TermArticleMap(termsList), termArticleEncoder);
-//		System.out.println(termArtciels.collectAsList());
+		System.out.println(termArtciels.collectAsList());
 		///
 	
 
