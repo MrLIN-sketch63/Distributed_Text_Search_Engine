@@ -18,7 +18,7 @@ import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
 //这个formetermap接受了一个spark的row 和我们已经生成的query数据结构
 public class QueryFormaterMap implements MapFunction<Row,Query> {
 
-	private static final long serialVersionUID = 6475166483071609772L;
+	private static final long serialVersionUID = 6475166483071609779L;
 
 	private transient TextPreProcessor processor;
 
