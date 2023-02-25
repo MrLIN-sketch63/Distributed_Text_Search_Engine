@@ -1,12 +1,13 @@
 package uk.ac.gla.dcs.bigdata.apps;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.*;
@@ -19,10 +20,12 @@ import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.studentfunctions.*;
+import uk.ac.gla.dcs.bigdata.studentfunctions.reducor.DocLengthSumReducer;
 import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
 /**
@@ -99,19 +102,12 @@ public class AssessedExercise {
 
 	public static List<DocumentRanking> rankDocuments(SparkSession spark, String queryFile, String newsFile) {
 
-		CollectionAccumulator<String> allQueryTerms = spark.sparkContext().collectionAccumulator();
 		// Load queries and news articles
 		Dataset<Row> queriesjson = spark.read().text(queryFile);
 		Dataset<Row> newsjson = spark.read().text(newsFile); // read in files as string rows, one row per article
 		// Perform an initial conversion from Dataset<Row> to Query and NewsArticle Java objects
-		Dataset<Query> queries = queriesjson.map(new QueryFormaterMap(allQueryTerms), Encoders.bean(Query.class)); // this converts each row into a Query
-		queries.show();
+		Dataset<Query> queries = queriesjson.map(new QueryFormaterMap(), Encoders.bean(Query.class)); // this converts each row into a Query
 		Dataset<NewsArticle> news = newsjson.map(new NewsFormaterMap(), Encoders.bean(NewsArticle.class)); // this converts each row into a NewsArticle
-
-		//System.out.println(allQueryTerms.value());
-		Set<String> allQueryTermsToSet = new HashSet<>();   //delete duplicate element
-		allQueryTermsToSet.addAll(allQueryTerms.value());
-		//System.out.println(allQueryTermsToSet);
 
 		//----------------------------------------------------------------
 		// Your Spark Topology should be defined here
@@ -124,17 +120,17 @@ public class AssessedExercise {
 		Dataset<NewsArticlesCleaned> articles = news.map(new NewsProcessorMap(docTermFrequency), newsArticleEncoder);
 
 		Long totalDocsInCorpus = articles.count();
-		//System.out.println(articles.count());
+		System.out.println(articles.count());
 
 		Dataset<Long> docLength = articles.map(new DocLengthMap(), Encoders.LONG());
 		Long docLengthSUM = docLength.reduce(new DocLengthSumReducer());
 		double averageDocumentLengthInCorpus = docLengthSUM / totalDocsInCorpus;
-		//System.out.println(averageDocumentLengthInCorpus);
+		System.out.println(averageDocumentLengthInCorpus);
 
-		//System.out.println("111111111111111111111111111111111111111");
-		//System.out.println(docTermFrequency.value().get(100).getId());
-		//System.out.println(docTermFrequency.value().get(100).getTerm());
-		//System.out.println(docTermFrequency.value().get(100).getFrequency());
+		System.out.println("111111111111111111111111111111111111111");
+		System.out.println(docTermFrequency.value().get(100).getId());
+		System.out.println(docTermFrequency.value().get(100).getTerm());
+		System.out.println(docTermFrequency.value().get(100).getFrequency());
 
 		Dataset<DocTermFrequency> DocTermFrequencyDataset = spark.createDataset(docTermFrequency.value(), Encoders.bean(DocTermFrequency.class));
 
@@ -147,29 +143,47 @@ public class AssessedExercise {
 		Dataset<Tuple2<String,Long>> termAndFrequency = DocByTerm.mapGroups(totalFrequency, termFrequencyEncoder);
 		termAndFrequency.show();
 		//System.out.println(termAndFrequency);
+		
+//		//QueryTerm - Document
+		Broadcast<Dataset<NewsArticlesCleaned>> broadcastCleanedNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
+		List<String> termsList = new ArrayList() ;
+		termsList.add("green");
+		termsList.add("red");
+		Dataset<String> dataTermList = spark.createDataset(termsList, Encoders.STRING());
+		
+		
+		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
+		Dataset<TermArticle> termArtciels = dataTermList.flatMap(new TermArticleMap(dataTermList,broadcastCleanedNews), termArticleEncoder);
+		System.out.println(termArtciels.collectAsList());
+		///
+	
 
-		Broadcast<Set<String>> broadcastAlQueryTermsToSet = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToSet);
+		
+		
+//		
+//		
+//		//
 		Broadcast<Dataset<DocTermFrequency>> broadcastDocTermFrequencyDataset = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(DocTermFrequencyDataset);
 		Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termAndFrequency);
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
-		//Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
-//
-		///DPH
-		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
 
+//	
+		///DPH
+//		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
+//
 //		Dataset<DPHall> DPH = .map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
 //												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);
-
+//		
 //		List<DPHall> DPHList = DPH.collectAsList();
 //		for (DPHall DPHitem: DPHList){
 //			System.out.println(DPHitem.getDPHsocre());}
-
-
+//		
+		
 		//reduce
 //		Encoder<RankedResultList> rankedResultListtEncoder = Encoders.bean(RankedResultList.class);
 //		Dataset<RankedResultList> AsLists =  result.map(new RankedResultToListMap, rankedResultListtEncoder);//result是最后出现的10个rankedresult
-//
+//		
 //		RankedResultList finalAsLists = AsLists.reduce(new TitleReducer());
 
 		return null; // replace this with the the list of DocumentRanking output by your topology

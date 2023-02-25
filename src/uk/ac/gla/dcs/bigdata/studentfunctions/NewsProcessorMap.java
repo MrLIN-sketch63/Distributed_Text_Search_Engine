@@ -39,7 +39,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 	@Override
 	public NewsArticlesCleaned call(NewsArticle value) throws Exception {
 		// TODO Auto-generated method stub
-
+	
 		List<String> title = new ArrayList<String>();
 		List<String> terms = new ArrayList<String>();
 		Long doc_length = (long) 0;

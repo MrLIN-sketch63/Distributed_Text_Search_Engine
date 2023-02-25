@@ -8,21 +8,21 @@ public class DPHall implements Serializable{
 	
 	private static final long serialVersionUID = 7309797024926062989L;
 	
-	double DPHsocre;
+	double DPHscore;
 	String terms;
 	NewsArticle article;
 	
-	public DPHall(double dPHsocre, String terms, NewsArticle  article) {
+	public DPHall(double dPHscore, String terms, NewsArticle  article) {
 		super();
-		DPHsocre = dPHsocre;
+		this.DPHscore = dPHscore;
 		this.terms = terms;
 		this.article = article;
 	}
-	public double getDPHsocre() {
-		return DPHsocre;
+	public double getDPHscore() {
+		return DPHscore;
 	}
-	public void setDPHsocre(double dPHsocre) {
-		DPHsocre = dPHsocre;
+	public void setDPHsocre(double dPHscore) {
+		DPHscore = dPHscore;
 	}
 	public String getTerms() {
 		return terms;
