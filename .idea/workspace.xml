@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e289a-fea5-4681-8984-5d9798bd5a18" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/data/TREC_Washington_Post_collection.v3.example.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677417809823/big" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677417809823/finance" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677417809823/james_bond" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677417809823/on_Facebook_IPO" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677417809823/team" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677429158132/finance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677429158132/james_bond" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677429158132/on_Facebook_IPO" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +66,7 @@
       <updated>1677271480983</updated>
       <workItem from="1677271482234" duration="2443000" />
       <workItem from="1677345938327" duration="30373000" />
-      <workItem from="1677424261236" duration="6558000" />
+      <workItem from="1677424261236" duration="11170000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1677340408658</created>
@@ -103,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677418477793</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="test">
+      <created>1677431114480</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677431114480</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
