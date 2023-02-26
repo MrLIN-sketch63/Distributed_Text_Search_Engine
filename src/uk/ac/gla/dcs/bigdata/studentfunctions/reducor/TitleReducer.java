@@ -14,7 +14,7 @@ import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleanedList;
-import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
+import uk.ac.gla.dcs.bigdata.studentstructures.List.RankedResultList;
 
 
 

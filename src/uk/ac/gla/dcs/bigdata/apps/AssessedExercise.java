@@ -2,13 +2,13 @@ package uk.ac.gla.dcs.bigdata.apps;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.*;
@@ -20,15 +20,19 @@ import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
+import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
+import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 import uk.ac.gla.dcs.bigdata.studentfunctions.*;
 import uk.ac.gla.dcs.bigdata.studentfunctions.flatMap.FrequencyZeroFilterMap;
 import uk.ac.gla.dcs.bigdata.studentfunctions.flatMap.TermArticleMap;
 import uk.ac.gla.dcs.bigdata.studentfunctions.reducor.DocLengthSumReducer;
-import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
+import uk.ac.gla.dcs.bigdata.studentfunctions.reducor.TitleReducer;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
-import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
+import uk.ac.gla.dcs.bigdata.studentstructures.QueryArticleDPH;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticleDPH;
+import uk.ac.gla.dcs.bigdata.studentstructures.List.RankedResultList;
 
 
 
@@ -167,9 +171,10 @@ public class AssessedExercise {
 	
 			
 	
-		//broadcastAlQueryTermsToSet
+		//Broadcast allQueryTermsToList
 		Broadcast<List<String>> broadcastAllQueryTermsToList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToList);
-		
+		List<Query> queriesList = queries.collectAsList();
+		Broadcast<List<Query>> broadcastQueriesList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(queriesList);
 		
 		//group of broadcast
 		List <DocTermFrequency> DocTermFrequencyDatasetList =  DocTermFrequencyDataset.collectAsList();
@@ -204,25 +209,39 @@ public class AssessedExercise {
 		Dataset<TermArticle> FilteredtermArtcles = termArtcles.flatMap(frquencyZeroFilter,termArticleEncoder);
 		System.out.println("TermArticle after filering:" + FilteredtermArtcles.count());
 		
-		///DPH
+		///DPH term-Article
 		System.out.println("We are calculating DPH score");
-		Encoder<DPHall> dphEncoder = Encoders.bean(DPHall.class);
+		Encoder<TermArticleDPH> dphEncoder = Encoders.bean(TermArticleDPH.class);
 
-		Dataset<DPHall> DPH = FilteredtermArtcles.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
+		Dataset<TermArticleDPH> termArticleDPH = FilteredtermArtcles.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
 												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);	
-		DPH.foreach(dphall -> {
+		
+        
+		//get ranking document(without calculating the distance between title)
+		termArticleDPH.foreach(termArticleDph -> {
 		    // Do something with each DPHall object
-		    System.out.println(dphall.getDPHscore());
+		    System.out.println(termArticleDph.getTerms()+" "+termArticleDph.getArticle().getTitle()+" "+termArticleDph.getDPHscore());
+		});
+				
+		List<TermArticleDPH> termarticledphlist = new ArrayList<>();
+		Broadcast<List<TermArticleDPH>> termdocdphlist = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termarticledphlist);
+		termArticleDPH.foreach(each ->{
+			System.out.println(each.getDPHscore());
+			termdocdphlist.getValue().add(each);
+			System.out.println(termdocdphlist.getValue().size());
 		});
 		
+//		System.out.println(termdocdphlist.getValue().size());
+		DocRankMap docrankmap = new DocRankMap(termdocdphlist);
+		Dataset<DocumentRanking> docrank = queries.map(docrankmap, Encoders.bean(DocumentRanking.class)); 
+		System.out.println(docrank.count());
 		
-		//reduce
-//		Encoder<RankedResultList> rankedResultListtEncoder = Encoders.bean(RankedResultList.class);
-//		Dataset<RankedResultList> AsLists =  result.map(new RankedResultToListMap, rankedResultListtEncoder);//result是最后出现的10个rankedresult
-//		
-//		RankedResultList finalAsLists = AsLists.reduce(new TitleReducer());
-
-		return null; // replace this with the the list of DocumentRanking output by your topology
+		//
+		Dataset<DocumentRanking> finalDocRank = docrank.map(new FinalResultMap(), Encoders.bean(DocumentRanking.class)); 
+//		System.out.println(finalDocRank.count());
+		List<DocumentRanking> finalDocRankList = finalDocRank.collectAsList();
+		
+		return finalDocRankList ; // replace this with the the list of DocumentRanking output by your topology
 	}
 
 

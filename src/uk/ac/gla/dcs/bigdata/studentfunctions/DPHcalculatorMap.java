@@ -15,13 +15,13 @@ import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
 import uk.ac.gla.dcs.bigdata.providedutilities.DPHScorer;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
-import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
-import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticleDPH;
+import uk.ac.gla.dcs.bigdata.studentstructures.List.RankedResultList;
 
-public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
+public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDPH >{
 	
 	private static final long serialVersionUID = -4631167868446469099L;
 
@@ -49,7 +49,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 
 
 	@Override
-	public DPHall call(TermArticle value) throws Exception {
+	public  TermArticleDPH  call(TermArticle value) throws Exception {
 		
 //		if (scorer==null) new DPHScorer();
 //		
@@ -112,7 +112,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 //			}
 //		}
 		
-		DPHall allResults = new DPHall(DPHsocre, term, article);
+		TermArticleDPH allResults = new  TermArticleDPH (DPHsocre, term, article);
 //		System.out.println(allResults.getDPHscore());
 		return allResults;
 	}

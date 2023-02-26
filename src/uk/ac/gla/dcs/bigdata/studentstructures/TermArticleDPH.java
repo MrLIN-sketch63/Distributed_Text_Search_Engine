@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
-public class DPHall implements Serializable{
+public class TermArticleDPH implements Serializable{
 	
-	private static final long serialVersionUID = 7309797024926066989L;
+	private static final long serialVersionUID = 7329797824926066989L;
 	
 	double DPHscore;
 	String terms;
 	NewsArticle article;
 	
 	
-	public DPHall() {}
+	public  TermArticleDPH () {}
 	
 	
-	public DPHall(double dPHscore, String terms, NewsArticle  article) {
+	public  TermArticleDPH (double dPHscore, String terms, NewsArticle  article) {
 		super();
 		this.DPHscore = dPHscore;
 		this.terms = terms;
