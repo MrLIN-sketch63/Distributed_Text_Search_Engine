@@ -31,6 +31,7 @@ public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRan
 		for(RankedResult rankedResult: rankedResultList) {
 			if(finalRankedResultList.size()==0) {
 				finalRankedResultList.add(rankedResult);
+				continue;
 			}
 			
 			NewsArticle article = rankedResult.getArticle();
@@ -41,10 +42,12 @@ public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRan
 				for(RankedResult finalRankedResult:finalRankedResultList) {
 					NewsArticle finalArticle = finalRankedResult.getArticle();
 					String finalTitle = finalArticle.getTitle();
-					double distance = TextDistanceCalculator.similarity(finalTitle, title);
-					if(distance<0.5) {
-						flag = false;
-						break;}
+					if(finalTitle!=null && title!=null) {
+						double distance = TextDistanceCalculator.similarity(finalTitle, title);
+						if(distance<0.5) {
+							flag = false;
+							break;}}
+					else {flag = false;}
 				}
 				
 			}

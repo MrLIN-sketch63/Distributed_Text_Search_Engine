@@ -81,17 +81,17 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
             }
             return -1;
         }).map(x -> x.getKey()).collect(Collectors.toList());
-		System.out.println("sortsortsort!!!");
+//		System.out.println("sortsortsort!!!");
 
 		for(NewsArticle doc: collect) {
 			String docid = doc.getId();
 			NewsArticle article = doc; 
 			double score = dphmap.get(doc) / term_num;
 			RankedResult rankres = new RankedResult(docid, article, score);
-			System.out.println(rankres.getScore());
+//			System.out.println(rankres.getScore());
 			docranks.add(rankres);
 		}
-		System.out.println(docranks);
+//		System.out.println(docranks);
 	
 		
 		DocumentRanking res = new DocumentRanking(value, docranks);
