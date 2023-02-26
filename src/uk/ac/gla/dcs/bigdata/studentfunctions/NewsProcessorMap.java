@@ -56,8 +56,10 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 
 		int i = 0;
+		
 		for(ContentItem newsContentItem : newsContentItems) {
-			String subType = newsContentItem.getSubtype();
+			if(newsContentItem!=null) { 
+				String subType = newsContentItem.getSubtype();
 
 			if( subType!= null) {
 				if (subType.equals("paragraph")){
@@ -70,6 +72,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 					break;
 				}
 
+			}
 			}
 		}
 
@@ -88,19 +91,19 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, value, doc_length);
 		//System.out.println(article.getContent());
-		//System.out.println(article.getDoc_length());
+//		System.out.println(article.getDoc_length());
 
-//		List<String> allTerms = article.getContent();
-//
-//		for (String term : allTerms) {
-//			if (termfrequency.containsKey(term)) {
-//				termfrequency.put(term, termfrequency.get(term) + (long) 1);
-//			} else {
-//				termfrequency.put(term, (long) 1);
-//			}
-//		}
-		termfrequency = article.getWordMap();
-		//System.out.println(termfrequency);
+		List<String> allTerms = article.getContent();
+
+		for (String term : allTerms) {
+			if (termfrequency.containsKey(term)) {
+				termfrequency.put(term, termfrequency.get(term) + (long) 1);
+			} else {
+				termfrequency.put(term, (long) 1);
+			}
+		}
+//		termfrequency = article.getWordMap();
+//		System.out.println(termfrequency);
 
 		for (Map.Entry<String, Long> entry: termfrequency.entrySet()) {
 			//System.out.println("key:" + entry.getKey() + ",vaule:" + entry.getValue());

@@ -36,8 +36,8 @@ public class QueryFormaterMap implements MapFunction<Row,Query> {
 		System.out.println(originalQuery);
 		
 		List<String> queryTerms = processor.process(originalQuery);//queryTerms是经过了文本预处理的文本
-		System.out.println("!!!!!!!!!!!!!!!!");
-		System.out.println(queryTerms);
+//		System.out.println("!!!!!!!!!!!!!!!!");
+//		System.out.println(queryTerms);
 		for(String a: queryTerms)
 		allQueryTerms.add(a);
 		

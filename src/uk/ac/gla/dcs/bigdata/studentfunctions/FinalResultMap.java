@@ -42,16 +42,12 @@ public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRan
 				for(RankedResult finalRankedResult:finalRankedResultList) {
 					NewsArticle finalArticle = finalRankedResult.getArticle();
 					String finalTitle = finalArticle.getTitle();
-					if(finalTitle != null && title != null){
+					if(finalTitle!=null && title!=null) {
 						double distance = TextDistanceCalculator.similarity(finalTitle, title);
 						if(distance<0.5) {
 							flag = false;
-							break;
-						}
-					}
-					else {
-						flag = false;
-					}
+							break;}}
+					else {flag = false;}
 				}
 				
 			}
