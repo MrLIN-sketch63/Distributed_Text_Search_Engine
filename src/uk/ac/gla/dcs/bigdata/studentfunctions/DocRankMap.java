@@ -83,9 +83,6 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
 
 		
 		return res;
-		
-		
-		
 
 		
 	}

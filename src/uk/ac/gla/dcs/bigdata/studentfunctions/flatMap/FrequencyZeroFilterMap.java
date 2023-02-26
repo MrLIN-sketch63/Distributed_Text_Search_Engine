@@ -26,8 +26,6 @@ public class FrequencyZeroFilterMap implements FlatMapFunction<TermArticle,TermA
 	boolean frquencyZero;
 	TermFrequencyAccumulator termFrequencyAccumulator;
 	
-	Map<String, Integer> freqMap=new HashMap<String, Integer>();
-	
 	public FrequencyZeroFilterMap() {
 		
 	}
@@ -40,10 +38,13 @@ public class FrequencyZeroFilterMap implements FlatMapFunction<TermArticle,TermA
 
 
 	public Iterator<TermArticle> call(TermArticle value) throws Exception {
+
+		Map<String, Integer> freqMap=new HashMap<String, Integer>();
 		
 		frquencyZero = true;
 		short frequency = value.getFrequency();
-			
+
+
 		if(frequency > 0) this.frquencyZero = false;
 			
 		

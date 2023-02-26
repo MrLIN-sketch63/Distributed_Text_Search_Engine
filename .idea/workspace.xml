@@ -6,9 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="535e289a-fea5-4681-8984-5d9798bd5a18" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677429158132/finance" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677429158132/james_bond" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677429158132/on_Facebook_IPO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677441015218/finance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677441015218/james_bond" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677441015218/on_Facebook_IPO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DPHcalculatorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DPHcalculatorMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/FrequencyZeroFilterMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/FrequencyZeroFilterMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/TermArticleMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/TermArticleMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +72,7 @@
       <updated>1677271480983</updated>
       <workItem from="1677271482234" duration="2443000" />
       <workItem from="1677345938327" duration="30373000" />
-      <workItem from="1677424261236" duration="11170000" />
+      <workItem from="1677424261236" duration="20151000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1677340408658</created>
@@ -103,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677431114480</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="test">
+      <created>1677441316662</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677441316662</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

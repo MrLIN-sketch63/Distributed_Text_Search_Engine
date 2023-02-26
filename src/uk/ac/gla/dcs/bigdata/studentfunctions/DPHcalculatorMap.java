@@ -70,7 +70,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 
 		double DPHsocre= DPHScorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
 		
-		TermArticleDPH allResults = new  TermArticleDPH (DPHsocre, term, article);
+		TermArticleDPH allResults = new TermArticleDPH (DPHsocre, term, article);
 
 		return allResults;
 	}
