@@ -6,8 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="535e289a-fea5-4681-8984-5d9798bd5a18" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/queries.list" beforeDir="false" afterPath="$PROJECT_DIR$/data/queries.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677382082700/Boykin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677382082700/big" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677382082700/finance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677382082700/james_bond" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677382082700/on_Facebook_IPO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/TermArticleDPHMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/TermArticleDPH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/TermArticleDPH.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedutilities/DPHScorer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedutilities/DPHScorer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +25,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/Qixiang_Mo" />
+    <option name="BRANCH" value="origin/Jingyi_Mao" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1677271480983</updated>
       <workItem from="1677271482234" duration="2443000" />
-      <workItem from="1677345938327" duration="15726000" />
+      <workItem from="1677345938327" duration="25814000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1677340408658</created>
@@ -73,7 +83,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677350292607</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="!!!">
+      <created>1677376862361</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677376862361</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,6 +110,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="11" />
     <MESSAGE value="111" />
-    <option name="LAST_COMMIT_MESSAGE" value="111" />
+    <MESSAGE value="!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="!!!" />
   </component>
 </project>
