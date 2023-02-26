@@ -44,7 +44,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		List<String> terms = new ArrayList<String>();
 		Long doc_length = (long) 0;
 
-		if (newsProcessor==null) newsProcessor = new TextPreProcessor();//文本预处理软件，处理成想要的样子
+		if (newsProcessor==null) newsProcessor = new TextPreProcessor();
 
 
 		//first using this docid
@@ -52,7 +52,6 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		String newsTitle = value.getTitle();
 		List<ContentItem> newsContentItems = value.getContents();
 		String newsParagraph = "";
-		Map<String, Long> termfrequency = new HashMap<>();
 
 
 		int i = 0;
@@ -69,49 +68,23 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 				}
 
 				if(i==5) {
-					break;
-				}
-
+					break;}
 			}
 			}
 		}
 
 
 		if(newsParagraph!=null) {
-			terms.addAll(newsProcessor.process(newsParagraph));//terms是经过了文本预处理的paragraph
-			doc_length += terms.size();
-
-		}
+			terms.addAll(newsProcessor.process(newsParagraph));//terms are paragraphs that have undergone text preprocessing
+			doc_length += terms.size();}
 
 		if(newsTitle != null) {
-			title.addAll(newsProcessor.process(newsTitle));//title是经过了文本预处理的title
-			doc_length += title.size();
-		}
+			title.addAll(newsProcessor.process(newsTitle));//title is the title after text preprocessing
+			doc_length += title.size();}
 		
-
-		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, doc_length);;
+		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, doc_length, value);;
 		
 		
-		
-		List<String> allTerms  = new ArrayList<String>();
-		if(title != null) allTerms.addAll(title);
-		if(terms != null) allTerms.addAll(terms);
-
-		for (String term : allTerms) {
-			if (termfrequency.containsKey(term)) {
-				termfrequency.put(term, termfrequency.get(term) + (long) 1);
-			} else {
-				termfrequency.put(term, (long) 1);
-			}
-		}
-
-		for (Map.Entry<String, Long> entry: termfrequency.entrySet()) {
-			String cur_term = entry.getKey();
-			Long cur_frequency = entry.getValue();
-			DocTermFrequency cur_doctermfreq = new DocTermFrequency(newsID, cur_term, cur_frequency.shortValue(), doc_length.intValue());
-			docTermFrequency.add(cur_doctermfreq);
-			
-		}
 
 		return article;
 	}

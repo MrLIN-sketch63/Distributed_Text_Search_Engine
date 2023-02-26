@@ -10,6 +10,7 @@ import org.apache.spark.broadcast.Broadcast;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
+import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
@@ -18,37 +19,19 @@ public class FrequencyZeroFilterMap implements FlatMapFunction<TermArticle,TermA
 
 	
 	private static final long serialVersionUID = -5421918183346003486L;
-	
-	
-	//Global
-	Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset;
-	
-	//
 	boolean frquencyZero;
 	
-	
-	public FrequencyZeroFilterMap(Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset) {
-		this.broadcastDocTermFrequencyDataset = broadcastDocTermFrequencyDataset;
+	public FrequencyZeroFilterMap() {
+		
 	}
 
-	
 	public Iterator<TermArticle> call(TermArticle value) throws Exception {
 		
-		List<DocTermFrequency> DocTermFrequencyList = broadcastDocTermFrequencyDataset.value();
-//		TermArticle TermArticlefiltered = new TermArticle();
-		NewsArticle article = value.getArticle();
-		String term = value.getTerm();
-		String newsID = article.getId();
 		frquencyZero = true;
-		
-		for(DocTermFrequency docTermFrequency:DocTermFrequencyList) {
-			short frequency = docTermFrequency.frequencySearch(newsID, term);
+		short frequency = value.getFrequency();
 			
-			if(frequency > 0) {
-				this.frquencyZero = false;
-			}
-		}
-		
+		if(frequency > 0) this.frquencyZero = false;
+			
 		
 		if (!this.frquencyZero) {
 			List<TermArticle> termArticleList = new ArrayList<TermArticle>(1);

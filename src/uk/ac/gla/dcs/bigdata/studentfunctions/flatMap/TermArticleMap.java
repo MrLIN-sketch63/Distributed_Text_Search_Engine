@@ -20,14 +20,12 @@ import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
 
 
-public class TermArticleMap implements FlatMapFunction<NewsArticle,TermArticle>{
+public class TermArticleMap implements FlatMapFunction<NewsArticlesCleaned,TermArticle>{
 	
 	/**
-	 * 
+	 * QixiangMo
 	 */
 	private static final long serialVersionUID = 100L;
-	//Global data
-//	Broadcast<Dataset<NewsArticlesCleaned>> broadcastNews;
 	
 	Broadcast<List<String>> broadcastTermsList;
 	
@@ -36,7 +34,7 @@ public class TermArticleMap implements FlatMapFunction<NewsArticle,TermArticle>{
 	}
 
 	@Override
-	public Iterator<TermArticle> call(NewsArticle article) throws Exception {
+	public Iterator<TermArticle> call(NewsArticlesCleaned article) throws Exception {
 		List<TermArticle> termArticle = new ArrayList<>();
 		
 		List<String> termsList = broadcastTermsList.value();
@@ -46,10 +44,5 @@ public class TermArticleMap implements FlatMapFunction<NewsArticle,TermArticle>{
         }
 		return termArticle.iterator();
 	}
-	
-	
-
-
-
-	
+		
 }

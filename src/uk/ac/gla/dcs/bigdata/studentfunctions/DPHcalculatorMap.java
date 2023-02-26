@@ -21,16 +21,14 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 	Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency;
 	Broadcast<Long> broadcastTotalDocsInCorpus;
 	Broadcast<Double> broadcastAverageDocumentLengthInCorpus;
-	Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset;
+
 		
 	public DPHcalculatorMap(Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency,
-			Broadcast<Long> broadcastTotalDocsInCorpus, Broadcast<Double> broadcastAverageDocumentLengthInCorpus, 
-			Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset) {
+			Broadcast<Long> broadcastTotalDocsInCorpus, Broadcast<Double> broadcastAverageDocumentLengthInCorpus) {
 		super();
 		this.broadcastTermAndFrequency = broadcastTermAndFrequency;
 		this.broadcastTotalDocsInCorpus = broadcastTotalDocsInCorpus;
 		this.broadcastAverageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus;
-		this.broadcastDocTermFrequencyDataset = broadcastDocTermFrequencyDataset;
 	}
 
 
@@ -48,17 +46,10 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 		NewsArticle article = new NewsArticle();
 		
 		term = value.getTerm();
-		article = value.getArticle();
+		article = value.getArticle().getOriginalArticle();
 		newsID = article.getId();
 
-		List<DocTermFrequency> docTermFrequencyList = this.broadcastDocTermFrequencyDataset.value();
-		for(DocTermFrequency docTerm:docTermFrequencyList) {
-			if(docTerm.getTerm().equals(term) && docTerm.getId().equals(newsID)){
-				termFrequencyInCurrentDocument = docTerm.getFrequency();
-				currentDocumentLength = docTerm.getDoc_length();
-
-			}
-		}
+		
 		
 		//
 		List<Tuple2<String,Long>> termAndFrequencyList = broadcastTermAndFrequency.value();

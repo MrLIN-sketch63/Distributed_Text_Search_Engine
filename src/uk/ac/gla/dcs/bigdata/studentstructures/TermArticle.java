@@ -1,6 +1,7 @@
 package uk.ac.gla.dcs.bigdata.studentstructures;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
@@ -9,16 +10,17 @@ public class TermArticle implements Serializable{
 	
 	
 	String term;
-	NewsArticle article;
-	int frequency = 0;
+	NewsArticlesCleaned article;
+	short frequency = 0;
 	
 	public TermArticle() {
 	}
 	
-	public TermArticle(String term, NewsArticle article) {
+	public TermArticle(String term, NewsArticlesCleaned article) {
 		super();
 		this.term = term;
 		this.article = article;
+		setFrequency();
 	}
 	
 
@@ -28,15 +30,25 @@ public class TermArticle implements Serializable{
 	public void setTerm(String term) {
 		this.term = term;
 	}
-	public NewsArticle getArticle() {
+	public NewsArticlesCleaned getArticle() {
 		return article;
 	}
-	public void setArticle(NewsArticle article) {
+	public void setArticle(NewsArticlesCleaned article) {
 		this.article = article;
 	}
 	
-	
-	
+	public short getFrequency() {
+		return frequency;
+	}
+
+	private void setFrequency() {
+		HashMap<String, Long> wordMap = article.getWordMap();
+		if(wordMap.containsKey(term)) {
+			this.frequency = wordMap.get(term).shortValue();
+		}
+		else {
+		this.frequency = 0;}
+	}
 	
 }
 
