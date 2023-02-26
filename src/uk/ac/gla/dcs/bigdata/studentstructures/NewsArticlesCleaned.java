@@ -15,15 +15,18 @@ public class NewsArticlesCleaned implements Serializable {
 	List<String> title; // article title
 	List<String> paragraph; // the contents of the paragraph // the contents of the title and the paragraph
 	Long doc_length;
+	HashMap<String, Long> wordMap = new HashMap<String, Long>();
+	NewsArticle originalArticle;
 
 	
-	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, Long doc_length) {
+	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, Long doc_length, NewsArticle originalArticle) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.paragraph = paragraph;
 		this.doc_length = doc_length;
-
+		WordFrequency();
+		this.originalArticle = originalArticle;
 	}
 
 
@@ -59,6 +62,33 @@ public class NewsArticlesCleaned implements Serializable {
 	public void setParagraph(List<String> paragraph) {
 		this.paragraph = paragraph;
 	}
+	
+	public HashMap<String, Long> getWordMap() {
+		return wordMap;
+	}
+	
+
+	public NewsArticle getOriginalArticle() {
+		return originalArticle;
+	}
+
+	public void setOriginalArticle(NewsArticle originalArticle) {
+		this.originalArticle = originalArticle;
+	}
+
+
+	public void WordFrequency() {
+		List<String> content = new ArrayList<String>();
+		if(this.title != null) content.addAll(this.title);
+		if(content != null) content.addAll(this.paragraph);
+		for (String word : content) {
+            if (this.wordMap.containsKey(word)) {
+                wordMap.put(word, wordMap.get(word) + (long)1);
+            } else {
+                wordMap.put(word, (long) 1);
+            }
+        }
+		}
 	
 
 }
