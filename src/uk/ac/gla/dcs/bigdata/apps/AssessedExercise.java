@@ -15,7 +15,6 @@ import org.apache.spark.sql.*;
 import org.apache.spark.util.CollectionAccumulator;
 
 import scala.Tuple2;
-import scala.reflect.internal.Trees;
 import uk.ac.gla.dcs.bigdata.providedfunctions.NewsFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
@@ -30,6 +29,7 @@ import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticleDPH;
 
 
 
@@ -198,12 +198,15 @@ public class AssessedExercise {
 		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
 		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(broadcastAllQueryTermsToList), termArticleEncoder);
 		System.out.println("termArticle:" + termArtcles.count());
+		termArtcles.printSchema();
+		//has dphscore
 	
 //	
 		//zero frequency filter
 		FrequencyZeroFilterMap frquencyZeroFilter = new FrequencyZeroFilterMap(broadcastDocTermFrequencyDataset); 
 		Dataset<TermArticle> FilteredtermArtcles = termArtcles.flatMap(frquencyZeroFilter,termArticleEncoder);
 		System.out.println("TermArticle after filering:" + FilteredtermArtcles.count());
+		FilteredtermArtcles.printSchema();
 		
 		///DPH
 		System.out.println("We are calculating DPH score");
@@ -211,15 +214,61 @@ public class AssessedExercise {
 
 		Dataset<DPHall> DPH = FilteredtermArtcles.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
 												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);	
+		
+		DPH.printSchema();
 		DPH.foreach(dphall -> {
 		    // Do something with each DPHall object
 		    System.out.println(dphall.getDPHscore());
 		});
+		
+		
+		TermArticleDPHMap f = new TermArticleDPHMap();
+		Dataset<TermArticleDPH> termarticledph = DPH.map(f, Encoders.bean(TermArticleDPH.class));
+		termarticledph.printSchema();
+//		List<TermArticleDPH> termarticledphl = termarticledph.collectAsList();
+//		System.out.println(termarticledphl.size());
+		System.out.println(termarticledph.count());
+		
+		
+//		termarticledph.collectAsList();
+//		Broadcast<Dataset<TermArticleDPH>> dphall = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termarticledph);
+//
+//		
+		
+//		DocRankMap docrankmap = new DocRankMap(dphall);
+//		Dataset<DocumentRanking> docrank = queries.map(docrankmap, Encoders.bean(DocumentRanking.class)); 
+//		
+//		Dataset
+//		
+//		System.out.println(docrank.count());
+		
+		List<TermArticleDPH> termarticledphlist = new ArrayList<>();
+		
+		
+		Broadcast<List<TermArticleDPH>> termdocdphlist = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termarticledphlist);
 
+		termarticledph.foreach(each ->{
+			System.out.println(each.getDphscore());
+			termdocdphlist.getValue().add(each);
+			System.out.println(termdocdphlist.getValue().size());
+		});
+		System.out.println(termdocdphlist.getValue().size());
+		
+		DocRankMap docrankmap = new DocRankMap(termdocdphlist);
+		Dataset<DocumentRanking> docrank = queries.map(docrankmap, Encoders.bean(DocumentRanking.class)); 
+		
+		System.out.println(docrank.count());
+		
+		
+		
+		
+		
+		
+		
 		
 		//reduce
-//		Encoder<RankedResultList> rankedResultListEncoder = Encoders.bean(RankedResultList.class);
-//		Dataset<RankedResultList> AsLists =  result.map(new RankedResultToListMap, rankedResultListEncoder);//result是最后出现的10个rankedresult
+//		Encoder<RankedResultList> rankedResultListtEncoder = Encoders.bean(RankedResultList.class);
+//		Dataset<RankedResultList> AsLists =  result.map(new RankedResultToListMap, rankedResultListtEncoder);//result是最后出现的10个rankedresult
 //		
 //		RankedResultList finalAsLists = AsLists.reduce(new TitleReducer());
 

@@ -4,49 +4,57 @@ import java.io.Serializable;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
-public class TermArticle implements Serializable{
-	private static final long serialVersionUID = 7860296794078492249L;
+public class TermArticleDPH implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7550296097101248763L;
 	
 	
 	String term;
 	NewsArticle article;
-	double DPHscore = 0;
+	double dphscore;
 	
 	
-	public double getDPHscore() {
-		return DPHscore;
-	}
-
-	public void setDPHscore(double dPHscore) {
-		DPHscore = dPHscore;
-	}
-
-	public TermArticle() {
-	}
-	
-	public TermArticle(String term, NewsArticle article, double DPHscore) {
-		super();
+	public TermArticleDPH(String term, NewsArticle article, double dphscore) {
 		this.term = term;
+		this.dphscore = dphscore;
 		this.article = article;
-		this.DPHscore = DPHscore;
 	}
-	
+
 
 	public String getTerm() {
 		return term;
 	}
+
+
 	public void setTerm(String term) {
 		this.term = term;
 	}
+
+
 	public NewsArticle getArticle() {
 		return article;
 	}
+
+
 	public void setArticle(NewsArticle article) {
 		this.article = article;
+	}
+
+
+	public double getDphscore() {
+		return dphscore;
+	}
+
+
+	public void setDphscore(double dphscore) {
+		this.dphscore = dphscore;
 	}
 	
 	
 	
 	
-}
 
+}

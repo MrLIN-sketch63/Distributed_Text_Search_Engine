@@ -88,7 +88,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, value, doc_length);
 		//System.out.println(article.getContent());
-		//System.out.println(article.getDoc_length());
+		System.out.println(article.getDoc_length());
 
 //		List<String> allTerms = article.getContent();
 //
@@ -100,7 +100,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 //			}
 //		}
 		termfrequency = article.getWordMap();
-		//System.out.println(termfrequency);
+		System.out.println(termfrequency);
 
 		for (Map.Entry<String, Long> entry: termfrequency.entrySet()) {
 			//System.out.println("key:" + entry.getKey() + ",vaule:" + entry.getValue());
