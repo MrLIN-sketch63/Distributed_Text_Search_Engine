@@ -2,9 +2,7 @@ package uk.ac.gla.dcs.bigdata.apps;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -20,19 +18,15 @@ import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
-import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
-import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 import uk.ac.gla.dcs.bigdata.studentfunctions.*;
 import uk.ac.gla.dcs.bigdata.studentfunctions.flatMap.FrequencyZeroFilterMap;
 import uk.ac.gla.dcs.bigdata.studentfunctions.flatMap.TermArticleMap;
 import uk.ac.gla.dcs.bigdata.studentfunctions.reducor.DocLengthSumReducer;
-import uk.ac.gla.dcs.bigdata.studentfunctions.reducor.TitleReducer;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
-import uk.ac.gla.dcs.bigdata.studentstructures.QueryArticleDPH;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticleDPH;
-import uk.ac.gla.dcs.bigdata.studentstructures.List.RankedResultList;
+
 
 
 
@@ -56,16 +50,14 @@ public class AssessedExercise {
 		// The code submitted for the assessed exerise may be run in either local or remote modes
 		// Configuration of this will be performed based on an environment variable
 		String sparkMasterDef = System.getenv("spark.master");
-		if (sparkMasterDef==null) sparkMasterDef = "local[8]"; // default is local mode with two executors
+		if (sparkMasterDef==null) sparkMasterDef = "local[2]"; // default is local mode with two executors
 
 		String sparkSessionName = "BigDataAE"; // give the session a name
 
 		// Create the Spark Configuration
 		SparkConf conf = new SparkConf()
 				.setMaster(sparkMasterDef)
-				.setAppName(sparkSessionName)
-				.set("spark.executor.memory", "8g")
-				.set("spark.driver.memory", "4g");
+				.setAppName(sparkSessionName);
 
 		// Create the spark session
 		SparkSession spark = SparkSession
@@ -80,8 +72,8 @@ public class AssessedExercise {
 
 		// Get the location of the input news articles
 		String newsFile = System.getenv("bigdata.news");
-		//if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
-		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v2.jl.fix.json";
+//		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
+		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json";
 
 		// Call the student's code
 		List<DocumentRanking> results = rankDocuments(spark, queryFile, newsFile);
@@ -131,7 +123,7 @@ public class AssessedExercise {
 		Set<String> allQueryTermsToSet = new HashSet<>();   //delete duplicate element
 		allQueryTermsToSet.addAll(allQueryTerms.value());
 		List<String> allQueryTermsToList = new ArrayList<String>(allQueryTermsToSet);
-//		System.out.println(allQueryTermsToList);
+
 		
 		
 		//doc to Term frequency accumulator
@@ -148,8 +140,8 @@ public class AssessedExercise {
 		Dataset<Long> docLength = articles.map(new DocLengthMap(), Encoders.LONG());
 		Long docLengthSUM = docLength.reduce(new DocLengthSumReducer());
 		double averageDocumentLengthInCorpus = docLengthSUM / totalDocsInCorpus;
-//		System.out.println(averageDocumentLengthInCorpus);
-//
+
+
 
 		
 		//
@@ -164,10 +156,7 @@ public class AssessedExercise {
 		Encoder<Tuple2<String,Long>> termFrequencyEncoder = Encoders.tuple(Encoders.STRING(), Encoders.LONG());
 		Dataset<Tuple2<String,Long>> termAndFrequency = DocByTerm.mapGroups(totalFrequency, termFrequencyEncoder);
 		termAndFrequency.show();
-		//System.out.println(termAndFrequency);
-		
-//		//QueryTerm - Document
-//		Broadcast<Dataset<NewsArticlesCleaned>> broadcastCleanedNews = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(articles);
+
 		
 
 	
@@ -176,8 +165,6 @@ public class AssessedExercise {
 		//Broadcast allQueryTermsToList
 		System.out.println("we are doing some broadcasting");
 		Broadcast<List<String>> broadcastAllQueryTermsToList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToList);
-//		List<Query> queriesList = queries.collectAsList();
-//		Broadcast<List<Query>> broadcastQueriesList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(queriesList);
 		
 		//group of broadcast
 		List <DocTermFrequency> DocTermFrequencyDatasetList =  DocTermFrequencyDataset.collectAsList();
@@ -188,27 +175,15 @@ public class AssessedExercise {
 		Broadcast<Double> broadcastAverageDocumentLengthInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(averageDocumentLengthInCorpus);
 		
 
-		
-		//test query
-//		List<String> termsList = new ArrayList<String>() ;
-//		termsList.add("boykin");
-//		termsList.add("green");
-//		termsList.add("big");
-//		System.out.println(termsList);
-//		Broadcast<List<String>> broadcastTermsList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termsList);
-		
-		
-		//map news to termArticle
-//		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
-//		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(broadcastTermsList), termArticleEncoder);
-//		System.out.println("termArticle:" + termArtcles.count());
+
 		System.out.println("we are maping new to termArticle");
 		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
 		Dataset<TermArticle> termArtcles = news.flatMap(new TermArticleMap(broadcastAllQueryTermsToList), termArticleEncoder);
 		System.out.println("termArticle numbers before zero frquency filtering :" + termArtcles.count());
 	
-//	
+	
 		//zero frequency filter
+		System.out.println("we are filtering termArticle that has zero frequency");
 		FrequencyZeroFilterMap frquencyZeroFilter = new FrequencyZeroFilterMap(broadcastDocTermFrequencyDataset); 
 		Dataset<TermArticle> FilteredtermArtcles = termArtcles.flatMap(frquencyZeroFilter,termArticleEncoder);
 		System.out.println("TermArticle numbers after filering:" + FilteredtermArtcles.count());
@@ -220,28 +195,18 @@ public class AssessedExercise {
 		Dataset<TermArticleDPH> termArticleDPH = FilteredtermArtcles.map(new DPHcalculatorMap(broadcastTermAndFrequency,broadcastTotalDocsInCorpus,
 												broadcastAverageDocumentLengthInCorpus, broadcastDocTermFrequencyDataset), dphEncoder);	
 		
-        
-		//get ranking document(without calculating the distance between title)
-//		termArticleDPH.foreach(termArticleDph -> {
-//		    // Do something with each DPHall object
-//		    System.out.println(termArticleDph.getTerms()+" "+termArticleDph.getArticle().getTitle()+" "+termArticleDph.getDPHscore());
-//		});
-//			
-		
-		
+   		
 		System.out.println("We are combining the term into query and we are ranking!!!!!!");
 		List<TermArticleDPH> termarticledphlist = new ArrayList<>();
 		Broadcast<List<TermArticleDPH>> termdocdphlist = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termarticledphlist);
 		termArticleDPH.foreach(each ->{
-//			System.out.println(each.getDPHscore());
 			termdocdphlist.getValue().add(each);
-//			System.out.println(termdocdphlist.getValue().size());
 		});
 		
-//		System.out.println(termdocdphlist.getValue().size());
+
 		DocRankMap docrankmap = new DocRankMap(termdocdphlist);
 		Dataset<DocumentRanking> docrank = queries.map(docrankmap, Encoders.bean(DocumentRanking.class)); 
-//		System.out.println(docrank.count());
+
 		
 		
 		
