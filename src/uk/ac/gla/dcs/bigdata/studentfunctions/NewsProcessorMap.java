@@ -28,10 +28,9 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 	private transient TextPreProcessor newsProcessor;
 
-	CollectionAccumulator<DocTermFrequency> docTermFrequency;
 
-	public NewsProcessorMap(CollectionAccumulator<DocTermFrequency> docTermFrequency) {
-		this.docTermFrequency =docTermFrequency;
+	public NewsProcessorMap() {
+		
 	}
 
 

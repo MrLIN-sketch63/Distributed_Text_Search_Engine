@@ -22,11 +22,6 @@ public class TermArticleDPH implements Serializable{
 		this.terms = terms;
 		this.article = article;
 	}
-	@Override
-	public String toString() {
-		return "DPHall [DPHscore=" + DPHscore + ", terms=" + terms + ", article=" + article + "]";
-	}
-
 
 	public double getDPHscore() {
 		return DPHscore;

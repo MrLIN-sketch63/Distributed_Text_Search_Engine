@@ -2,6 +2,7 @@ package uk.ac.gla.dcs.bigdata.studentfunctions;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.broadcast.Broadcast;
@@ -18,15 +19,16 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 	private static final long serialVersionUID = -4631167868446469099L;
 	
 	//Global Data
-	Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency;
+	Broadcast<Map<String, Integer>> broadcastTermFrequencyMap;
 	Broadcast<Long> broadcastTotalDocsInCorpus;
 	Broadcast<Double> broadcastAverageDocumentLengthInCorpus;
+	
 
 		
-	public DPHcalculatorMap(Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency,
+	public DPHcalculatorMap(Broadcast<Map<String, Integer>> broadcastTermFrequencyMap,
 			Broadcast<Long> broadcastTotalDocsInCorpus, Broadcast<Double> broadcastAverageDocumentLengthInCorpus) {
 		super();
-		this.broadcastTermAndFrequency = broadcastTermAndFrequency;
+		this.broadcastTermFrequencyMap = broadcastTermFrequencyMap;
 		this.broadcastTotalDocsInCorpus = broadcastTotalDocsInCorpus;
 		this.broadcastAverageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus;
 	}
@@ -49,27 +51,22 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 		article = value.getArticle().getOriginalArticle();
 		newsID = article.getId();
 
+		//termFrequencyInCurrentDocument
+		termFrequencyInCurrentDocument = value.getFrequency();
 		
+		//otalTermFrequencyInCorpus
+		Map<String, Integer> termAndFrequencyMap = broadcastTermFrequencyMap.value();
+		if(termAndFrequencyMap.get(term)!=null) totalTermFrequencyInCorpus = termAndFrequencyMap.get(term);
 		
-		//
-		List<Tuple2<String,Long>> termAndFrequencyList = broadcastTermAndFrequency.value();
-		Iterator<Tuple2<String, Long>> tupleIterator = termAndFrequencyList.iterator();
-		
-		while (tupleIterator.hasNext()) {
-			Tuple2<String,Long> tuple = tupleIterator.next();
-			if(tuple._1.equals(term)) {
-			totalTermFrequencyInCorpus = tuple._2.intValue();
-			}
-		}
-		
-		
-		
-		
-		//
+		//averageDocumentLengthInCorpus
 		averageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus.value();
 
-		//
+		//totalDocsInCorpus
 		totalDocsInCorpus = broadcastTotalDocsInCorpus.value();
+		
+		//currentDocumentLength
+		currentDocumentLength = value.getArticle().getDoc_length().intValue();
+		
 
 		double DPHsocre= DPHScorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
 		
