@@ -15,6 +15,7 @@ import org.apache.spark.sql.*;
 import org.apache.spark.util.CollectionAccumulator;
 
 import scala.Tuple2;
+import scala.reflect.internal.Trees;
 import uk.ac.gla.dcs.bigdata.providedfunctions.NewsFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedfunctions.QueryFormaterMap;
 import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
@@ -214,11 +215,11 @@ public class AssessedExercise {
 		    // Do something with each DPHall object
 		    System.out.println(dphall.getDPHscore());
 		});
-		
+
 		
 		//reduce
-//		Encoder<RankedResultList> rankedResultListtEncoder = Encoders.bean(RankedResultList.class);
-//		Dataset<RankedResultList> AsLists =  result.map(new RankedResultToListMap, rankedResultListtEncoder);//result是最后出现的10个rankedresult
+//		Encoder<RankedResultList> rankedResultListEncoder = Encoders.bean(RankedResultList.class);
+//		Dataset<RankedResultList> AsLists =  result.map(new RankedResultToListMap, rankedResultListEncoder);//result是最后出现的10个rankedresult
 //		
 //		RankedResultList finalAsLists = AsLists.reduce(new TitleReducer());
 
