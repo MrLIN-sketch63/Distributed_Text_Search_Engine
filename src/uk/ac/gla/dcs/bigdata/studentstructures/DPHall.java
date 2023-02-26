@@ -1,43 +1,54 @@
 package uk.ac.gla.dcs.bigdata.studentstructures;
 
 import java.io.Serializable;
-import java.util.List;
 
-import scala.Tuple2;
+import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
-public class DPHall<newsArticles> implements Serializable{
+public class DPHall implements Serializable{
 	
-	private static final long serialVersionUID = 7309797024926062989L;
+	private static final long serialVersionUID = 7309797024926066989L;
 	
-	List<Tuple2<String, Double>> termdphpair;
-	newsArticles article;
+	double DPHscore = 0;
+	String terms;
+	NewsArticle article;
 	
-	public DPHall(List<Tuple2<String, Double>> termdphpair, newsArticles article) {
+	
+	
+	
+	public DPHall(double DPHscore, String terms, NewsArticle article) {
 		super();
-		
-		this.termdphpair = termdphpair;
+		this.DPHscore = DPHscore;
+		this.terms = terms;
 		this.article = article;
-		
+	}
+	
+	public DPHall() {}
+
+	
+	@Override
+	public String toString() {
+		return "DPHall [DPHscore=" + DPHscore + ", terms=" + terms + ", article=" + article + "]";
 	}
 
-	public List<Tuple2<String, Double>> getTermdphpair() {
-		return termdphpair;
-	}
 
-	public void setTermdphpair(List<Tuple2<String, Double>> termdphpair) {
-		this.termdphpair = termdphpair;
+	public double getDPHscore() {
+		return DPHscore;
 	}
-
-	public newsArticles getArticle() {
+	public void setDPHsocre(double dPHscore) {
+		DPHscore = dPHscore;
+	}
+	public String getTerms() {
+		return terms;
+	}
+	public void setTerms(String terms) {
+		this.terms = terms;
+	}
+	public NewsArticle getArticle() {
 		return article;
 	}
-
-	public void setArticle(newsArticles article) {
+	public void setArticle(NewsArticle  article) {
 		this.article = article;
 	}
-	
-	
-	
 
 	
 }

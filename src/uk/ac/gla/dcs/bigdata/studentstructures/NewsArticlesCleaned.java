@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
+
 
 public class NewsArticlesCleaned implements Serializable {
 	private static final long serialVersionUID = 7860293794078492243L;
@@ -12,14 +14,14 @@ public class NewsArticlesCleaned implements Serializable {
 	String id; // unique article identifier
 	List<String> title; // article title
 	List<String> paragraph; // the contents of the paragraph // the contents of the title and the paragraph
-	String originalNews;
+	NewsArticle originalNews;
 	List<String> content = new ArrayList<String>();
 	Long doc_length;
 	List<String> titleAndParagraphTerms = new ArrayList<String>();
 	
 	HashMap<String, Long> wordMap = new HashMap<String, Long>();
 	
-	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, String originalNews, Long doc_length) {
+	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, NewsArticle originalNews, Long doc_length) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -35,18 +37,8 @@ public class NewsArticlesCleaned implements Serializable {
 	}
 
 
-	public List<String> getTitleAndParagraphTerms() {
-		return titleAndParagraphTerms;
-	}
-
-
-	public void setTitleAndParagraphTerms(List<String> titleAndParagraphTerms) {
-		this.titleAndParagraphTerms = titleAndParagraphTerms;
-	}
-
-
-	public void setWordMap(HashMap<String, Long> wordMap) {
-		this.wordMap = wordMap;
+	public NewsArticlesCleaned() {
+		// TODO Auto-generated constructor stub
 	}
 
 
@@ -58,7 +50,7 @@ public class NewsArticlesCleaned implements Serializable {
 		this.doc_length = doc_length;
 	}
 
-	public String getOriginalNews() {
+	public NewsArticle getOriginalNews() {
 		return originalNews;
 	}
 	public List<String> getContent() {
@@ -69,7 +61,7 @@ public class NewsArticlesCleaned implements Serializable {
 		this.content = content;
 	}
 
-	public void setOriginalNews(String originalNews) {
+	public void setOriginalNews(NewsArticle originalNews) {
 		this.originalNews = originalNews;
 	}
 	public String getId() {

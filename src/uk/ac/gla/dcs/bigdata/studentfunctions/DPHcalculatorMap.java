@@ -6,8 +6,10 @@ import java.util.List;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.util.CollectionAccumulator;
 
 import scala.Tuple2;
+import scala.collection.JavaConverters;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
 import uk.ac.gla.dcs.bigdata.providedutilities.DPHScorer;
@@ -17,39 +19,40 @@ import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
 import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
+import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 
-public class DPHcalculatorMap implements MapFunction<DocTermFrequency, DPHall>{
+public class DPHcalculatorMap implements MapFunction<TermArticle, DPHall>{
 	
 	private static final long serialVersionUID = -4631167868446469099L;
 
-	private transient DPHScorer scorer;
+//	private transient DPHScorer scorer;
 
 	
 	//Global Data
-	Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency;
+	Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency;
 	Broadcast<Long> broadcastTotalDocsInCorpus;
 	Broadcast<Double> broadcastAverageDocumentLengthInCorpus;
-	Broadcast<Dataset<NewsArticle>> broadcastNews;
+	Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset;
 	
 	
 	
-	public DPHcalculatorMap(Broadcast<Dataset<Tuple2<String, Long>>> broadcastTermAndFrequency,
+	public DPHcalculatorMap(Broadcast<List<Tuple2<String, Long>>> broadcastTermAndFrequency,
 			Broadcast<Long> broadcastTotalDocsInCorpus, Broadcast<Double> broadcastAverageDocumentLengthInCorpus, 
-			Broadcast<Dataset<NewsArticle>> broadcastNews) {
+			Broadcast<List<DocTermFrequency>> broadcastDocTermFrequencyDataset) {
 		super();
 		this.broadcastTermAndFrequency = broadcastTermAndFrequency;
 		this.broadcastTotalDocsInCorpus = broadcastTotalDocsInCorpus;
 		this.broadcastAverageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus;
-		this.broadcastNews = broadcastNews;
+		this.broadcastDocTermFrequencyDataset = broadcastDocTermFrequencyDataset;
 	}
 
 
 
 	@Override
-	public DPHall call(DocTermFrequency value) throws Exception {
+	public DPHall call(TermArticle value) throws Exception {
 		
-		if (scorer==null) scorer = new DPHScorer();
-		
+//		if (scorer==null) new DPHScorer();
+//		
 		
 		
 		short termFrequencyInCurrentDocument = 0;
@@ -61,13 +64,21 @@ public class DPHcalculatorMap implements MapFunction<DocTermFrequency, DPHall>{
 		String newsID = "";
 		NewsArticle article = new NewsArticle();
 		
-		
-		termFrequencyInCurrentDocument = value.getFrequency();
 		term = value.getTerm();
-		newsID = value.getId();
+		article = value.getArticle();
+		newsID = article.getId();
+//		System.out.println(term);	
+		List<DocTermFrequency> docTermFrequencyList = this.broadcastDocTermFrequencyDataset.value();
+		for(DocTermFrequency docTerm:docTermFrequencyList) {
+			if(docTerm.getTerm().equals(term) && docTerm.getId().equals(newsID)){
+				termFrequencyInCurrentDocument = docTerm.getFrequency();
+				currentDocumentLength = docTerm.getDoc_length();
+//				System.out.println(termFrequencyInCurrentDocument+currentDocumentLength);
+			}
+		}
+		
 		//
-		Dataset<Tuple2<String,Long>> termAndFrequency = broadcastTermAndFrequency.value();
-		List<Tuple2<String,Long>> termAndFrequencyList = termAndFrequency.collectAsList();
+		List<Tuple2<String,Long>> termAndFrequencyList = broadcastTermAndFrequency.value();
 		Iterator<Tuple2<String, Long>> tupleIterator = termAndFrequencyList.iterator();
 		
 		while (tupleIterator.hasNext()) {
@@ -79,28 +90,30 @@ public class DPHcalculatorMap implements MapFunction<DocTermFrequency, DPHall>{
 		
 		
 		//
-		currentDocumentLength = value.getDoc_length();
+//		currentDocumentLength = value.getDoc_length();
 		
 		//
 		averageDocumentLengthInCorpus = broadcastAverageDocumentLengthInCorpus.value();
-		
+//		System.out.println(averageDocumentLengthInCorpus);
 		//
 		totalDocsInCorpus = broadcastTotalDocsInCorpus.value();
-		
-		double DPHsocre= scorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
-		
+//		System.out.println(totalDocsInCorpus);
+//		System.out.println(termFrequencyInCurrentDocument+" "+totalTermFrequencyInCorpus+" "+
+//				currentDocumentLength+" "+averageDocumentLengthInCorpus+" "+totalDocsInCorpus);
+		double DPHsocre= DPHScorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
+//		System.out.println(DPHsocre);
 		//
-		Dataset<NewsArticle> news = broadcastNews.value();
-		List<NewsArticle> newsList = news.collectAsList();
-		
-		for(NewsArticle newsItem: newsList) {
-			if (newsItem.getId().equals(newsID)){
-				article = newsItem;
-			}
-		}
+//		Dataset<NewsArticle> news = broadcastNews.value();
+//		List<NewsArticle> newsList = news.collectAsList();
+//		
+//		for(NewsArticle newsItem: newsList) {
+//			if (newsItem.getId().equals(newsID)){
+//				article = newsItem;
+//			}
+//		}
 		
 		DPHall allResults = new DPHall(DPHsocre, term, article);
-		
+//		System.out.println(allResults.getDPHscore());
 		return allResults;
 	}
 

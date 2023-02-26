@@ -1,4 +1,4 @@
-package uk.ac.gla.dcs.bigdata.studentfunctions;
+package uk.ac.gla.dcs.bigdata.studentfunctions.reducor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

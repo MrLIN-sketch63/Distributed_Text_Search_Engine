@@ -16,7 +16,7 @@ public class DPHScorer {
 	
 	/**
 	 * Calculates the DPH score for a single query term in a document
-	 * @param termFrequencyInCurrentDocument // The number of times the query appears in the document
+	 * @param termFrequencyInCurrentDocument // The number of times the query appears in the document 
 	 * @param totalTermFrequencyInCorpus // the number of times the query appears in all documents
 	 * @param currentDocumentLength // the length of the current document (number of terms in the document)
 	 * @param averageDocumentLengthInCorpus // the average length across all documents
@@ -24,13 +24,13 @@ public class DPHScorer {
 	 * @return
 	 */
 	public static double getDPHScore(
-			short termFrequencyInCurrentDocument,
-			int totalTermFrequencyInCorpus,
-			int currentDocumentLength,
-			double averageDocumentLengthInCorpus,
-			long totalDocsInCorpus) {
-		
-							
+			short termFrequencyInCurrentDocument, //一个term在当前文档出现的数量
+			int totalTermFrequencyInCorpus,//一个term在所有文件出现的次数
+			int currentDocumentLength,//当前文件的长度
+			double averageDocumentLengthInCorpus,//所有文档的平均长度
+			long totalDocsInCorpus//一共有多少个文件在数据集中
+			) {
+
 					// calculate the f and normalization components of DPH
 					double f = WeightingModelLibrary.relativeFrequency(termFrequencyInCurrentDocument, currentDocumentLength);
 					double norm = (1d-f) * (1d -f)/(termFrequencyInCurrentDocument+1d);
@@ -46,5 +46,4 @@ public class DPHScorer {
 					return DPHScore;
 		
 	}
-	
 }
