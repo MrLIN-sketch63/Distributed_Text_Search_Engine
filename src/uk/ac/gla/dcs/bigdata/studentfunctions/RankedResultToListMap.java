@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.spark.api.java.function.MapFunction;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
-import uk.ac.gla.dcs.bigdata.studentstructures.RankedResultList;
+import uk.ac.gla.dcs.bigdata.studentstructures.List.RankedResultList;
 
 public class RankedResultToListMap implements MapFunction<RankedResult, RankedResultList>{
 

@@ -16,7 +16,6 @@ import uk.ac.gla.dcs.bigdata.providedstructures.DocumentRanking;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
-import uk.ac.gla.dcs.bigdata.studentstructures.DPHall;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticleDPH;
 
 public class DocRankMap implements MapFunction<Query, DocumentRanking>{
@@ -28,11 +27,11 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
 	private static final long serialVersionUID = 3490083426550218984L;
 	
 	
-	Broadcast<List<TermArticleDPH>> dphall;
+	Broadcast<List<TermArticleDPH>> termdocdphlist;
 	
 	
-	public DocRankMap(Broadcast<List<TermArticleDPH>> dphall) {
-		this.dphall = dphall;
+	public DocRankMap(Broadcast<List<TermArticleDPH>> termdocdphlist) {
+		this.termdocdphlist = termdocdphlist;
 	}
 	
 
@@ -64,14 +63,14 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
 //		System.out.println("print the condition!!!!!!!!!!!!!");
 //		System.out.println(condition);
 		
-		for(TermArticleDPH cur: dphall.getValue()) {
-			String cur_term = cur.getTerm();
+		for(TermArticleDPH cur: termdocdphlist.getValue()) {
+			String cur_term = cur.getTerms();
 			NewsArticle cur_doc = cur.getArticle();
 			if(queryTerms.contains(cur_term)) {
 				if(dphmap.containsKey(cur_doc)) {
-					dphmap.put(cur_doc, dphmap.get(cur_doc) + cur.getDphscore());
+					dphmap.put(cur_doc, dphmap.get(cur_doc) + cur.getDPHscore());
 				}else {
-					dphmap.put(cur_doc, cur.getDphscore());
+					dphmap.put(cur_doc, cur.getDPHscore());
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package uk.ac.gla.dcs.bigdata.studentstructures;
+package uk.ac.gla.dcs.bigdata.studentstructures.List;
 
 import java.io.Serializable;
 import java.util.List;
