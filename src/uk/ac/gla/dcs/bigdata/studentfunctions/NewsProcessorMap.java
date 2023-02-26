@@ -89,7 +89,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		}
 
 
-		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, value, doc_length);
+		NewsArticlesCleaned article =  new NewsArticlesCleaned(newsID, title, terms, doc_length);
 		//System.out.println(article.getContent());
 //		System.out.println(article.getDoc_length());
 
@@ -113,7 +113,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 			docTermFrequency.add(cur_doctermfreq);
 			
 		}
-
+		System.gc();
 		return article;
 	}
 

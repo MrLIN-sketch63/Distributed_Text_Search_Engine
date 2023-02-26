@@ -56,14 +56,16 @@ public class AssessedExercise {
 		// The code submitted for the assessed exerise may be run in either local or remote modes
 		// Configuration of this will be performed based on an environment variable
 		String sparkMasterDef = System.getenv("spark.master");
-		if (sparkMasterDef==null) sparkMasterDef = "local[2]"; // default is local mode with two executors
+		if (sparkMasterDef==null) sparkMasterDef = "local[8]"; // default is local mode with two executors
 
 		String sparkSessionName = "BigDataAE"; // give the session a name
 
 		// Create the Spark Configuration
 		SparkConf conf = new SparkConf()
 				.setMaster(sparkMasterDef)
-				.setAppName(sparkSessionName);
+				.setAppName(sparkSessionName)
+				.set("spark.executor.memory", "8g")
+				.set("spark.driver.memory", "4g");
 
 		// Create the spark session
 		SparkSession spark = SparkSession
@@ -78,8 +80,8 @@ public class AssessedExercise {
 
 		// Get the location of the input news articles
 		String newsFile = System.getenv("bigdata.news");
-//		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
-		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json";
+		//if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
+		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v2.jl.fix.json";
 
 		// Call the student's code
 		List<DocumentRanking> results = rankDocuments(spark, queryFile, newsFile);

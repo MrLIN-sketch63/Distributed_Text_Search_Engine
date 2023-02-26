@@ -5,19 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535e289a-fea5-4681-8984-5d9798bd5a18" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/data/TREC_Washington_Post_collection.v3.example.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/queries.list" beforeDir="false" afterPath="$PROJECT_DIR$/data/queries.list" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677382082700/Boykin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677382082700/big" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677382082700/finance" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677382082700/james_bond" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677382082700/on_Facebook_IPO" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677417809823/big" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677417809823/finance" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677417809823/james_bond" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677417809823/on_Facebook_IPO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/1677417809823/team" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/NewsProcessorMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/TermArticleDPHMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/TermArticleDPH.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/TermArticleDPH.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedutilities/DPHScorer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedutilities/DPHScorer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/providedfunctions/QueryFormaterMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,18 +45,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/86298/Desktop/BigData_project/data",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\86298\Desktop\BigData_project\data" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -67,7 +72,8 @@
       <option name="presentableId" value="Default" />
       <updated>1677271480983</updated>
       <workItem from="1677271482234" duration="2443000" />
-      <workItem from="1677345938327" duration="25814000" />
+      <workItem from="1677345938327" duration="30373000" />
+      <workItem from="1677424261236" duration="6558000" />
     </task>
     <task id="LOCAL-00001" summary="11">
       <created>1677340408658</created>
@@ -90,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677376862361</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="test">
+      <created>1677418477793</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677418477793</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,6 +124,7 @@
     <MESSAGE value="11" />
     <MESSAGE value="111" />
     <MESSAGE value="!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="!!!" />
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
 </project>
