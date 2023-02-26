@@ -38,30 +38,16 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
 	@Override
 	public DocumentRanking call(Query value) throws Exception {
 		
-		
-		
-		//System.out.println("print the schema!!!!!!!!!!!!!");
-		//System.out.println(dphall.getValue().size());
-		
+
 		HashMap<NewsArticle, Double> dphmap = new HashMap<>();
 		List<RankedResult> docranks = new ArrayList<>();
 		
 				
 		List<String> queryTerms = value.getQueryTerms();
-		double total_score = 0;
 		
 		
 		int term_num = queryTerms.size();
 
-//		for(String qt: queryTerms) {
-//			qt = "\"" + qt + "\"";
-//			String part_condition = "terms = "+qt;
-//			condition = condition + " OR " + part_condition;
-//			condition = condition.substring(4);
-//		}
-//		
-//		System.out.println("print the condition!!!!!!!!!!!!!");
-//		System.out.println(condition);
 		
 		for(TermArticleDPH cur: termdocdphlist.getValue()) {
 			String cur_term = cur.getTerms();
@@ -81,18 +67,17 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
             }
             return -1;
         }).map(x -> x.getKey()).collect(Collectors.toList());
-//		System.out.println("sortsortsort!!!");
+
 
 		for(NewsArticle doc: collect) {
 			String docid = doc.getId();
 			NewsArticle article = doc; 
 			double score = dphmap.get(doc) / term_num;
 			RankedResult rankres = new RankedResult(docid, article, score);
-//			System.out.println(rankres.getScore());
+
 			docranks.add(rankres);
 		}
-//		System.out.println(docranks);
-	
+
 		
 		DocumentRanking res = new DocumentRanking(value, docranks);
 
@@ -100,55 +85,8 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
 		return res;
 		
 		
-        
-		
-//		System.out.println(collect);
-//
-//		
-//	
-//		//System.out.println();
-//		Dataset<TermArticleDPH> termofquerydph = dphall.getValue().filter(condition);
-//		
-//		
-//		termofquerydph.printSchema();
-//		System.out.println(termofquerydph.count());
-//
-//		
-//		RelationalGroupedDataset groupdph = dphall.getValue().groupBy("article");
-//		Dataset<Row> groupdphdata = groupdph.df();
-//		groupdphdata.printSchema();
-//		
-//		Dataset<Row> docdph = groupdph.avg("DPHscore").orderBy(functions.desc("avg(DPHscore)"));
-//		
-//		docdph.printSchema();
-//		
-		
-		
-		
-		
-		//TODO
-		
-//		Encoder<List<Double>> listEncoder = (Encoder<List<Double>>) Encoders.javaSerialization(Encoders.DOUBLE().getClass());
-//		
-//		Dataset<Tuple2<NewsArticle, double[]>> rankreslist = querydocdph.map(row -> {
-//			NewsArticle col1 = row.getAs("doc");
-//			double[] col2 = row.getAs("dphscore");
-//		    return new Tuple2<>(col1, col2);
-//		}, Encoders.tuple(Encoders.bean(NewsArticle.class), listEncoder));
-//		
-		
-		
 		
 
-		// Collect the results into a list
-		
-		//Dataset<RankedResult> rankedresult = querydocdph.map(func, evidence$6)
-		
-		
-
-		
-		
-		
 		
 	}
 
