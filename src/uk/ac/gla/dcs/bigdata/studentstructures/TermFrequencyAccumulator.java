@@ -7,7 +7,7 @@ import java.util.Map;
 public class TermFrequencyAccumulator extends AccumulatorV2<Map<String, Integer>, Map<String, Integer>> {
 
     /**
-	 * QixiangMo
+	 * QixiangMo modifed based on AccumulatorV2
 	 */
 	private static final long serialVersionUID = 1123123123123L;
 	
