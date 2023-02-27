@@ -10,7 +10,6 @@ import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedutilities.DPHScorer;
-import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticle;
 import uk.ac.gla.dcs.bigdata.studentstructures.TermArticleDPH;
 
@@ -44,12 +43,10 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 		double averageDocumentLengthInCorpus = 0;//所有文档的平均长度
 		long totalDocsInCorpus = 0;//一共有多少个文件在数据集中
 		String term = "";
-		String newsID = "";
 		NewsArticle article = new NewsArticle();
 		
 		term = value.getTerm();
 		article = value.getArticle().getOriginalArticle();
-		newsID = article.getId();
 
 		//termFrequencyInCurrentDocument
 		termFrequencyInCurrentDocument = value.getFrequency();
@@ -70,7 +67,7 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 
 		double DPHsocre= DPHScorer.getDPHScore(termFrequencyInCurrentDocument, totalTermFrequencyInCorpus, currentDocumentLength, averageDocumentLengthInCorpus, totalDocsInCorpus);
 		
-		TermArticleDPH allResults = new TermArticleDPH (DPHsocre, term, article);
+		TermArticleDPH allResults = new  TermArticleDPH (DPHsocre, term, article);
 
 		return allResults;
 	}
