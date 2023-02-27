@@ -41,11 +41,7 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
 
 		HashMap<NewsArticle, Double> dphmap = new HashMap<>();
 		List<RankedResult> docranks = new ArrayList<>();
-		
-				
 		List<String> queryTerms = value.getQueryTerms();
-		
-		
 		int term_num = queryTerms.size();
 
 		
@@ -67,14 +63,15 @@ public class DocRankMap implements MapFunction<Query, DocumentRanking>{
             }
             return -1;
         }).map(x -> x.getKey()).collect(Collectors.toList());
+		
+//		System.out.println("sortsortsort!!!");
 
-
+		
 		for(NewsArticle doc: collect) {
 			String docid = doc.getId();
 			NewsArticle article = doc; 
 			double score = dphmap.get(doc) / term_num;
 			RankedResult rankres = new RankedResult(docid, article, score);
-
 			docranks.add(rankres);
 		}
 
