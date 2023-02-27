@@ -26,7 +26,7 @@ public class TermArticle implements Serializable{
 		super();
 		this.term = term;
 		this.article = article;
-		setFrequency();
+		setFrequency();//get the word map after text processing
 	}
 	
 
@@ -47,7 +47,7 @@ public class TermArticle implements Serializable{
 		return frequency;
 	}
 
-	private void setFrequency() {
+	private void setFrequency() {//generate a word map for this article
 		HashMap<String, Long> wordMap = article.getWordMap();
 		if(wordMap.containsKey(term)) {
 			this.frequency = wordMap.get(term).shortValue();

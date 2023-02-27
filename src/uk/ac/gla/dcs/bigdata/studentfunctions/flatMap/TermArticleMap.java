@@ -41,7 +41,7 @@ public class TermArticleMap implements FlatMapFunction<NewsArticlesCleaned,TermA
 		List<String> termsList = broadcastTermsList.value();//get the broadcast value of term list
 		
 		for (String term : termsList) {
-			termArticle.add(new TermArticle(term, article));
+			termArticle.add(new TermArticle(term, article));// for each term in termList, generate a new TermArticle
         }
 		return termArticle.iterator();
 	}

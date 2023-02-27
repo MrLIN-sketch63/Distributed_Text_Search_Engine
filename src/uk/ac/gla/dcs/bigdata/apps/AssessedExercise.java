@@ -142,10 +142,8 @@ public class AssessedExercise {
 		
 		//Broadcast allQueryTermsToList
 		System.out.println("we are broadcasting！！！！！");
+		//Broadcast allQueryTermsToList, which is a list of all query terms without duplicate
 		Broadcast<List<String>> broadcastAllQueryTermsToList = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(allQueryTermsToList);
-		List<Query> QueriesList = queries.collectAsList();
-		Broadcast<List<Query>> broadcastQueries = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(QueriesList);
-		
 
 		//Broadcast broadcastTotalDocsInCorpus and broadcastAverageDocumentLengthInCorpus
 		Broadcast<Long> broadcastTotalDocsInCorpus = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(totalDocsInCorpus);
