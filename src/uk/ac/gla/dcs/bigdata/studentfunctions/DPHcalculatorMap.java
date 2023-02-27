@@ -49,8 +49,8 @@ public class DPHcalculatorMap implements MapFunction<TermArticle,  TermArticleDP
 		short termFrequencyInCurrentDocument = 0;
 		int totalTermFrequencyInCorpus = 0;
 		int currentDocumentLength = 0;
-		double averageDocumentLengthInCorpus = 0;//所有文档的平均长度
-		long totalDocsInCorpus = 0;//一共有多少个文件在数据集中
+		double averageDocumentLengthInCorpus = 0;
+		long totalDocsInCorpus = 0;
 		String term = "";
 		NewsArticle article = new NewsArticle();
 		

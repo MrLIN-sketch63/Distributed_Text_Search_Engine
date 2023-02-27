@@ -56,7 +56,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 
 		int i = 0;
-		
+		//iterate contentItems
 		for(ContentItem newsContentItem : newsContentItems) {
 			if(newsContentItem!=null) { //if newsContentsItem is not null ,so we can get subtype
 				String subType = newsContentItem.getSubtype();

@@ -51,7 +51,7 @@ public class FrequencyZeroFilterMap implements FlatMapFunction<TermArticle,TermA
 			List<TermArticle> termArticleList = new ArrayList<TermArticle>(1);
 			termArticleList.add(value); 
 			freqMap.put(value.getTerm(), (int) frequency);
-			termFrequencyAccumulator.add(freqMap);
+			termFrequencyAccumulator.add(freqMap);//this add function will get the same keys and add their value together
 			return termArticleList.iterator(); 
 		} else {//if frequency is not 0 , then return null
 			List<TermArticle> termArticleList = new ArrayList<TermArticle>(0);
