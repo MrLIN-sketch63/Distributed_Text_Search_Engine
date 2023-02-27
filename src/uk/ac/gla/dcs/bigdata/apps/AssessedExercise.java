@@ -160,21 +160,21 @@ public class AssessedExercise {
 		System.out.println("termArticle numbers before zero frquency filtering :" + termArtcles.count());
 	
 		//Zero frequency filter， This is a very important step to optimize, we ignore the term-article pair that has
-		//no frequency value and map the pairs having frequency values to a new Dataset<TermArticle>filteredTermArtcles
+		//zero frequency value and map the pairs having frequency values to a new Dataset<TermArticle> filteredTermArtcles
 		System.out.println("we are filtering termArticle that has zero frequency！！！！");
 		FrequencyZeroFilterMap frquencyZeroFilter = new FrequencyZeroFilterMap(termFrequencyAccumulator); 
 		Dataset<TermArticle> filteredTermArtcles = termArtcles.flatMap(frquencyZeroFilter,termArticleEncoder);
 		System.out.println("TermArticle numbers after filering:" + filteredTermArtcles.count());//get the count after filtering
 	
 
-		//broadcast TermandFrequency map, cause we want to calculate DPH score
+		//broadcast TermandFrequency map to calculate DPH score
 		Map<String, Integer> termFrequencyMap = termFrequencyAccumulator.value();
 		Broadcast<Map<String, Integer>> broadcastTermFrequencyMap = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(termFrequencyMap);
 		System.out.println(termFrequencyMap);
 		
 		
-		//Score Accumulator, just same as termArticleDPH. Making this Accumulator is to make sure we can broadcast to the DocRankMap
-		//cause Dataset cannot be broadcast, and termArticleDPH.collectASlist() will cause missing fields. 
+		//Score Accumulator, just as same as termArticleDPH. Making this Accumulator is to make sure we can broadcast to the DocRankMap
+		//cause Dataset cannot be broadcast, cause termArticleDPH.collectASlist() will cause missing fields. 
 		ScoreAccumulator scoreAccumulator = new ScoreAccumulator(new HashMap<>());
 		spark.sparkContext().register(scoreAccumulator, "scoreAccumulator");
 		
@@ -186,11 +186,11 @@ public class AssessedExercise {
 		termArticleDPH.count();
 		
 		
-		//create score Accumulator just as same as termArticleDPH
+		//create score Accumulator is just as same as termArticleDPH
 		Map<Tuple2<String,NewsArticle>, Double> scoreMap = scoreAccumulator.value();
 		Broadcast<Map<Tuple2<String,NewsArticle>, Double>> broadcastScoreMap = JavaSparkContext.fromSparkContext(spark.sparkContext()).broadcast(scoreMap);
 		
-		//final step get average score and rank them
+		//it's a final step to get average score and rank them
 		System.out.println("We are combining the term into query and we are ranking!!!！！");
 		DocRankMap docrankmap = new DocRankMap(broadcastScoreMap);
 		Dataset<DocumentRanking> docrank = queries.map(docrankmap, Encoders.bean(DocumentRanking.class)); 
