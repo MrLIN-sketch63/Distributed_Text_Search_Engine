@@ -8,15 +8,21 @@ import java.util.List;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
 
+/**
+ * Qixiang Mo
+ * Jingyi Mao 
+ * Ziyang Lin 
+ */
+
 public class NewsArticlesCleaned implements Serializable {
 	private static final long serialVersionUID = 7860293794078492243L;
 	
 	String id; // unique article identifier
 	List<String> title; // article title
-	List<String> paragraph; // the contents of the paragraph // the contents of the title and the paragraph
-	Long doc_length;
-	HashMap<String, Long> wordMap = new HashMap<String, Long>();
-	NewsArticle originalArticle;
+	List<String> paragraph; // the contents of the paragraph 
+	Long doc_length; //article's length
+	HashMap<String, Long> wordMap = new HashMap<String, Long>();//this map is to record word-frequency pair.
+	NewsArticle originalArticle;//get original object 
 
 	
 	public NewsArticlesCleaned(String id, List<String> title, List<String> paragraph, Long doc_length, NewsArticle originalArticle) {
@@ -80,8 +86,8 @@ public class NewsArticlesCleaned implements Serializable {
 	public void WordFrequency() {
 		List<String> content = new ArrayList<String>();
 		if(this.title != null) content.addAll(this.title);
-		if(content != null) content.addAll(this.paragraph);
-		for (String word : content) {
+		if(content != null) content.addAll(this.paragraph);// the "content" is contents of the title and the paragraph
+		for (String word : content) {//get wordMap for this artcile
             if (this.wordMap.containsKey(word)) {
                 wordMap.put(word, wordMap.get(word) + (long)1);
             } else {

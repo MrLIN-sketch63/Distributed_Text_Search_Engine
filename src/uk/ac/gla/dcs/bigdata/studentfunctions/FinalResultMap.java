@@ -13,6 +13,12 @@ import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 
 
+/**
+ * Qixiang Mo
+ * Ziyang Lin 
+ * 
+ */
+
 public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRanking >{
 
 	/**
@@ -33,24 +39,24 @@ public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRan
 			RankedResult rankedResult = rankedResultIterator.next();
 			NewsArticle article = rankedResult.getArticle();
 			String title = article.getTitle();
-			boolean flag = true;//True:keep this result, vice versa.
+			boolean flag = true;//True:keep this result, and vice versa.
 			
-			if(title==null) {
+			if(title==null) {// if the title is null ,then ignore it.
 				continue;
 			}
 			
-			if(finalRankedResultList.size()==0) {
+			if(finalRankedResultList.size()==0) {//if this is the first rankedResult, add it to the list
 				finalRankedResultList.add(rankedResult);
 				continue;
 			}
 			
-			
+			//if it is not the first, we will do follow action
 			if((!finalRankedResultList.contains(rankedResult)) && finalRankedResultList.size()!=0) {
-				for(RankedResult finalRankedResult:finalRankedResultList) {
+				for(RankedResult finalRankedResult:finalRankedResultList) {// get the result from list
 					NewsArticle finalArticle = finalRankedResult.getArticle();
 					String finalTitle = finalArticle.getTitle();
 					if(title!=null) {
-						double distance = TextDistanceCalculator.similarity(finalTitle, title);
+						double distance = TextDistanceCalculator.similarity(finalTitle, title);//calculate the distance
 						if(distance<0.5) {
 							flag = false;
 							break;}}
@@ -59,7 +65,7 @@ public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRan
 				
 			}
 			
-			if(flag) {
+			if(flag) {//flag = true ,so we add it into list
 				if(finalRankedResultList.size()<10) {
 					finalRankedResultList.add(rankedResult);
 				}

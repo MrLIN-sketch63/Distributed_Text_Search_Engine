@@ -17,12 +17,15 @@ import uk.ac.gla.dcs.bigdata.providedstructures.ContentItem;
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 import uk.ac.gla.dcs.bigdata.providedstructures.Query;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextPreProcessor;
-import uk.ac.gla.dcs.bigdata.studentstructures.DocTermFrequency;
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 
 
 
-/**Qixiang Mo**/
+/**
+ * Qixiang Mo
+ * Ziyang Lin 
+ * Jingyi Mao 
+ */
 public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCleaned> {
 	private static final long serialVersionUID = -4631167868446468000L;
 
@@ -37,7 +40,6 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 	@Override
 	public NewsArticlesCleaned call(NewsArticle value) throws Exception {
-		// TODO Auto-generated method stub
 	
 		List<String> title = new ArrayList<String>();
 		List<String> terms = new ArrayList<String>();
@@ -46,7 +48,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 		if (newsProcessor==null) newsProcessor = new TextPreProcessor();
 
 
-		//first using this docid
+		//initialize
 		String newsID = value.getId();
 		String newsTitle = value.getTitle();
 		List<ContentItem> newsContentItems = value.getContents();
@@ -54,9 +56,9 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 
 
 		int i = 0;
-		
+		//iterate contentItems
 		for(ContentItem newsContentItem : newsContentItems) {
-			if(newsContentItem!=null) { 
+			if(newsContentItem!=null) { //if newsContentsItem is not null ,so we can get subtype
 				String subType = newsContentItem.getSubtype();
 
 			if( subType!= null) {
@@ -67,7 +69,7 @@ public class NewsProcessorMap implements MapFunction<NewsArticle, NewsArticlesCl
 				}
 
 				if(i==5) {
-					break;}
+					break;}//if the amount of paragraph is 5 then stop it
 			}
 			}
 		}
