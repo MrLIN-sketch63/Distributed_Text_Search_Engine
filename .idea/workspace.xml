@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="535e289a-fea5-4681-8984-5d9798bd5a18" name="Changes" comment="">
+    <list default="true" id="535e289a-fea5-4681-8984-5d9798bd5a18" name="Changes" comment="Finish all function.">
+      <change afterPath="$PROJECT_DIR$/data/TREC_Washington_Post_collection.v3.example.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677441015218/finance" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677441015218/james_bond" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/results/1677441015218/on_Facebook_IPO" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/apps/AssessedExercise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DPHcalculatorMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DPHcalculatorMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/DocRankMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/FinalResultMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/FrequencyZeroFilterMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/FrequencyZeroFilterMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/TermArticleMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uk/ac/gla/dcs/bigdata/studentfunctions/flatMap/TermArticleMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uk/ac/gla/dcs/bigdata/studentstructures/NewsArticlesCleaned.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/Jingyi_Mao" />
+    <option name="BRANCH" value="origin/main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,19 +36,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/86298/Desktop/BigData_project/data",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/86298/Desktop/BigData_project/data&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\86298\Desktop\BigData_project\data" />

@@ -73,8 +73,8 @@ public class AssessedExercise {
 
 		// Get the location of the input news articles
 		String newsFile = System.getenv("bigdata.news");
-//		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
-		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v2.jl.fix.json";
+		if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v3.example.json"; // default is a sample of 5000 news articles
+		//if (newsFile==null) newsFile = "data/TREC_Washington_Post_collection.v2.jl.fix.json";
 
 		// Call the student's code
 		List<DocumentRanking> results = rankDocuments(spark, queryFile, newsFile);
@@ -154,6 +154,7 @@ public class AssessedExercise {
 		Encoder<TermArticle> termArticleEncoder= Encoders.bean(TermArticle.class);
 		//Convert NewsArtcilesCleaned to TermArticles, use broadcastAllQueryTermsToList to get each term in Query
 		Dataset<TermArticle> termArtcles = articles.flatMap(new TermArticleMap(broadcastAllQueryTermsToList), termArticleEncoder);
+		termArtcles.show();
 		System.out.println("termArticle numbers before zero frquency filtering :" + termArtcles.count());
 	
 		//Zero frequency filter， This is a very important step to optimize, we ignore the term-article pair that has
