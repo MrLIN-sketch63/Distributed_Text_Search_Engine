@@ -3,7 +3,6 @@ package uk.ac.gla.dcs.bigdata.providedstructures;
 import java.io.Serializable;
 
 
-//Java Comparable 是一个允许对象相互比较的接口
 public class RankedResult implements Serializable, Comparable<RankedResult> {
 
 	private static final long serialVersionUID = -2905684103776472843L;

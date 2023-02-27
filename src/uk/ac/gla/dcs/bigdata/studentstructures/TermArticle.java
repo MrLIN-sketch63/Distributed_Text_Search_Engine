@@ -5,6 +5,12 @@ import java.util.HashMap;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
+
+/**
+ * Qixiang Mo
+ * Jingyi Mao 
+ */
+
 public class TermArticle implements Serializable{
 	private static final long serialVersionUID = 7860296794078492249L;
 	

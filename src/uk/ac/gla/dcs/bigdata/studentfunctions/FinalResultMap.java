@@ -13,6 +13,12 @@ import uk.ac.gla.dcs.bigdata.providedstructures.RankedResult;
 import uk.ac.gla.dcs.bigdata.providedutilities.TextDistanceCalculator;
 
 
+/**
+ * Qixiang Mo
+ * Ziyang Lin 
+ * Jingyi Mao modified
+ */
+
 public class FinalResultMap implements MapFunction<DocumentRanking , DocumentRanking >{
 
 	/**

@@ -4,22 +4,28 @@ import java.io.Serializable;
 
 import uk.ac.gla.dcs.bigdata.providedstructures.NewsArticle;
 
+/**
+ * Qixiang Mo
+ * Ziyang Lin 
+ */
+
+
 public class TermArticleDPH implements Serializable{
 	
 	private static final long serialVersionUID = 7329797824926066989L;
 	
 	double DPHscore;
-	String terms;
+	String term;
 	NewsArticle article;
 	
 	
 	public  TermArticleDPH () {}
 	
 	
-	public  TermArticleDPH (double dPHscore, String terms, NewsArticle  article) {
+	public  TermArticleDPH (double dPHscore, String term, NewsArticle  article) {
 		super();
 		this.DPHscore = dPHscore;
-		this.terms = terms;
+		this.term = term;
 		this.article = article;
 	}
 
@@ -29,11 +35,11 @@ public class TermArticleDPH implements Serializable{
 	public void setDPHsocre(double dPHscore) {
 		DPHscore = dPHscore;
 	}
-	public String getTerms() {
-		return terms;
+	public String getTerm() {
+		return term;
 	}
-	public void setTerms(String terms) {
-		this.terms = terms;
+	public void setTerm(String terms) {
+		this.term = terms;
 	}
 	public NewsArticle getArticle() {
 		return article;

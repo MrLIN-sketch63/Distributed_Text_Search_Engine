@@ -4,7 +4,9 @@ import org.apache.spark.api.java.function.ReduceFunction;
 
 import uk.ac.gla.dcs.bigdata.studentstructures.NewsArticlesCleaned;
 
-
+/**
+ * Jingyi Mao
+ */
 public class DocLengthSumReducer implements ReduceFunction<Long>{
 
 
