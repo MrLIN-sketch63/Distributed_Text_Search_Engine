@@ -21,11 +21,20 @@ public class NewsFormaterMap implements MapFunction<Row,NewsArticle> {
 
 	private static final long serialVersionUID = -4631167868446468097L;
 
-	private transient ObjectMapper jsonMapper;
+	private transient ObjectMapper jsonMapper;// transient是Java语言的关键字,用来表示一个成员变量不是该对象序列化的一部分。当一个对象被序列化的时候,transient型变量的值不包括在序列化的结果中
+	
+//	private transient TextPreProcessor newsProcessor;
 	
 	
 	@Override
 	public NewsArticle call(Row value) throws Exception {
+		
+//		/**Qixiang Mo modify**/
+//		String originalNews = value.mkString();
+//		
+//		List<String> newsTerms = newsProcessor.process(originalNews);//queryTerms是经过了文本预处理的文本
+//		
+//		String content = String.join(" ", newsTerms);	
 
 		if (jsonMapper==null) jsonMapper = new ObjectMapper();		
 		
