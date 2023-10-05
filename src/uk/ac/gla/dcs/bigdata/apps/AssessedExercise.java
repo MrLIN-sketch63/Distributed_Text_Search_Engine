@@ -200,11 +200,10 @@ public class AssessedExercise {
 		System.out.println(finalDocRank.count());
 		List<DocumentRanking> finalDocRankList = finalDocRank.collectAsList();
 		
-		
+
 		
 		return finalDocRankList ; // replace this with the the list of DocumentRanking output by your topology
 	}
-
 
 }
 
